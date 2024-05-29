@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		E5625F982C073B6400EE1AD5 /* ClimateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625F972C073B6400EE1AD5 /* ClimateApp.swift */; };
-		E5625F9A2C073B6400EE1AD5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625F992C073B6400EE1AD5 /* ContentView.swift */; };
 		E5625F9C2C073B6600EE1AD5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5625F9B2C073B6600EE1AD5 /* Assets.xcassets */; };
 		E5625F9F2C073B6600EE1AD5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5625F9E2C073B6600EE1AD5 /* Preview Assets.xcassets */; };
 		E5625FA92C073B6600EE1AD5 /* ClimateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FA82C073B6600EE1AD5 /* ClimateTests.swift */; };
 		E5625FB32C073B6600EE1AD5 /* ClimateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FB22C073B6600EE1AD5 /* ClimateUITests.swift */; };
 		E5625FB52C073B6600EE1AD5 /* ClimateUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FB42C073B6600EE1AD5 /* ClimateUITestsLaunchTests.swift */; };
+		E5625FC32C073DFB00EE1AD5 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E5625FC22C073DFB00EE1AD5 /* ComposableArchitecture */; };
+		E5625FC62C073F1600EE1AD5 /* MainFeature+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FC52C073F1600EE1AD5 /* MainFeature+Reducer.swift */; };
+		E5625FC82C07400400EE1AD5 /* MainFeature+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FC72C07400400EE1AD5 /* MainFeature+View.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +38,6 @@
 /* Begin PBXFileReference section */
 		E5625F942C073B6400EE1AD5 /* Climate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Climate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5625F972C073B6400EE1AD5 /* ClimateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimateApp.swift; sourceTree = "<group>"; };
-		E5625F992C073B6400EE1AD5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E5625F9B2C073B6600EE1AD5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E5625F9E2C073B6600EE1AD5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E5625FA42C073B6600EE1AD5 /* ClimateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClimateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +45,8 @@
 		E5625FAE2C073B6600EE1AD5 /* ClimateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClimateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5625FB22C073B6600EE1AD5 /* ClimateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimateUITests.swift; sourceTree = "<group>"; };
 		E5625FB42C073B6600EE1AD5 /* ClimateUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimateUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E5625FC52C073F1600EE1AD5 /* MainFeature+Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainFeature+Reducer.swift"; sourceTree = SOURCE_ROOT; };
+		E5625FC72C07400400EE1AD5 /* MainFeature+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainFeature+View.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5625FC32C073DFB00EE1AD5 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				E5625F972C073B6400EE1AD5 /* ClimateApp.swift */,
-				E5625F992C073B6400EE1AD5 /* ContentView.swift */,
+				E5625FC42C073EFF00EE1AD5 /* MainFeature */,
 				E5625F9B2C073B6600EE1AD5 /* Assets.xcassets */,
 				E5625F9D2C073B6600EE1AD5 /* Preview Content */,
 			);
@@ -127,6 +131,15 @@
 			path = ClimateUITests;
 			sourceTree = "<group>";
 		};
+		E5625FC42C073EFF00EE1AD5 /* MainFeature */ = {
+			isa = PBXGroup;
+			children = (
+				E5625FC52C073F1600EE1AD5 /* MainFeature+Reducer.swift */,
+				E5625FC72C07400400EE1AD5 /* MainFeature+View.swift */,
+			);
+			path = MainFeature;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +156,9 @@
 			dependencies = (
 			);
 			name = Climate;
+			packageProductDependencies = (
+				E5625FC22C073DFB00EE1AD5 /* ComposableArchitecture */,
+			);
 			productName = Climate;
 			productReference = E5625F942C073B6400EE1AD5 /* Climate.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +231,9 @@
 				Base,
 			);
 			mainGroup = E5625F8B2C073B6400EE1AD5;
+			packageReferences = (
+				E5625FC12C073DFB00EE1AD5 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = E5625F952C073B6400EE1AD5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -257,8 +276,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5625F9A2C073B6400EE1AD5 /* ContentView.swift in Sources */,
+				E5625FC62C073F1600EE1AD5 /* MainFeature+Reducer.swift in Sources */,
 				E5625F982C073B6400EE1AD5 /* ClimateApp.swift in Sources */,
+				E5625FC82C07400400EE1AD5 /* MainFeature+View.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +608,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E5625FC12C073DFB00EE1AD5 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.10.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E5625FC22C073DFB00EE1AD5 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E5625FC12C073DFB00EE1AD5 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E5625F8C2C073B6400EE1AD5 /* Project object */;
 }
