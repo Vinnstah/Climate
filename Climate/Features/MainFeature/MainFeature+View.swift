@@ -29,6 +29,7 @@ extension MainFeature {
                     }
                     Spacer()
                 }
+                .tabView(home: {}, search: {}, geo: geo)
             }
         }
     }

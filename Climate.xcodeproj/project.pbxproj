@@ -19,6 +19,7 @@
 		E5625FCB2C0754AA00EE1AD5 /* HTTPClient+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FCA2C0754AA00EE1AD5 /* HTTPClient+Interface.swift */; };
 		E5625FCD2C07556200EE1AD5 /* HTTPClient+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FCC2C07556200EE1AD5 /* HTTPClient+Live.swift */; };
 		E5625FCF2C07596800EE1AD5 /* HTTPErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FCE2C07596800EE1AD5 /* HTTPErrors.swift */; };
+		E58553512C07CD81001B1B1C /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553502C07CD81001B1B1C /* TabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		E5625FCA2C0754AA00EE1AD5 /* HTTPClient+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPClient+Interface.swift"; sourceTree = "<group>"; };
 		E5625FCC2C07556200EE1AD5 /* HTTPClient+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPClient+Live.swift"; sourceTree = "<group>"; };
 		E5625FCE2C07596800EE1AD5 /* HTTPErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPErrors.swift; sourceTree = "<group>"; };
+		E58553502C07CD81001B1B1C /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,9 +106,9 @@
 		E5625F962C073B6400EE1AD5 /* Climate */ = {
 			isa = PBXGroup;
 			children = (
-				E5625FC92C07549C00EE1AD5 /* HTTPClient */,
+				E585534E2C07CD52001B1B1C /* Features */,
+				E585534D2C07CD3C001B1B1C /* Clients */,
 				E5625F972C073B6400EE1AD5 /* ClimateApp.swift */,
-				E5625FC42C073EFF00EE1AD5 /* MainFeature */,
 				E5625F9B2C073B6600EE1AD5 /* Assets.xcassets */,
 				E5625F9D2C073B6600EE1AD5 /* Preview Content */,
 			);
@@ -155,6 +157,31 @@
 				E5625FCE2C07596800EE1AD5 /* HTTPErrors.swift */,
 			);
 			path = HTTPClient;
+			sourceTree = "<group>";
+		};
+		E585534D2C07CD3C001B1B1C /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				E5625FC92C07549C00EE1AD5 /* HTTPClient */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		E585534E2C07CD52001B1B1C /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				E585534F2C07CD6B001B1B1C /* Extensions */,
+				E5625FC42C073EFF00EE1AD5 /* MainFeature */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		E585534F2C07CD6B001B1B1C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E58553502C07CD81001B1B1C /* TabView.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,6 +324,7 @@
 				E5625FC62C073F1600EE1AD5 /* MainFeature+Reducer.swift in Sources */,
 				E5625FCF2C07596800EE1AD5 /* HTTPErrors.swift in Sources */,
 				E5625F982C073B6400EE1AD5 /* ClimateApp.swift in Sources */,
+				E58553512C07CD81001B1B1C /* TabView.swift in Sources */,
 				E5625FC82C07400400EE1AD5 /* MainFeature+View.swift in Sources */,
 				E5625FCB2C0754AA00EE1AD5 /* HTTPClient+Interface.swift in Sources */,
 			);
