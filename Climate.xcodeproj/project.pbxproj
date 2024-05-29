@@ -16,6 +16,9 @@
 		E5625FC32C073DFB00EE1AD5 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E5625FC22C073DFB00EE1AD5 /* ComposableArchitecture */; };
 		E5625FC62C073F1600EE1AD5 /* MainFeature+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FC52C073F1600EE1AD5 /* MainFeature+Reducer.swift */; };
 		E5625FC82C07400400EE1AD5 /* MainFeature+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FC72C07400400EE1AD5 /* MainFeature+View.swift */; };
+		E5625FCB2C0754AA00EE1AD5 /* HTTPClient+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FCA2C0754AA00EE1AD5 /* HTTPClient+Interface.swift */; };
+		E5625FCD2C07556200EE1AD5 /* HTTPClient+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FCC2C07556200EE1AD5 /* HTTPClient+Live.swift */; };
+		E5625FCF2C07596800EE1AD5 /* HTTPErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FCE2C07596800EE1AD5 /* HTTPErrors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		E5625FB42C073B6600EE1AD5 /* ClimateUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimateUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E5625FC52C073F1600EE1AD5 /* MainFeature+Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainFeature+Reducer.swift"; sourceTree = SOURCE_ROOT; };
 		E5625FC72C07400400EE1AD5 /* MainFeature+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainFeature+View.swift"; sourceTree = "<group>"; };
+		E5625FCA2C0754AA00EE1AD5 /* HTTPClient+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPClient+Interface.swift"; sourceTree = "<group>"; };
+		E5625FCC2C07556200EE1AD5 /* HTTPClient+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPClient+Live.swift"; sourceTree = "<group>"; };
+		E5625FCE2C07596800EE1AD5 /* HTTPErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,7 @@
 		E5625F962C073B6400EE1AD5 /* Climate */ = {
 			isa = PBXGroup;
 			children = (
+				E5625FC92C07549C00EE1AD5 /* HTTPClient */,
 				E5625F972C073B6400EE1AD5 /* ClimateApp.swift */,
 				E5625FC42C073EFF00EE1AD5 /* MainFeature */,
 				E5625F9B2C073B6600EE1AD5 /* Assets.xcassets */,
@@ -138,6 +145,16 @@
 				E5625FC72C07400400EE1AD5 /* MainFeature+View.swift */,
 			);
 			path = MainFeature;
+			sourceTree = "<group>";
+		};
+		E5625FC92C07549C00EE1AD5 /* HTTPClient */ = {
+			isa = PBXGroup;
+			children = (
+				E5625FCA2C0754AA00EE1AD5 /* HTTPClient+Interface.swift */,
+				E5625FCC2C07556200EE1AD5 /* HTTPClient+Live.swift */,
+				E5625FCE2C07596800EE1AD5 /* HTTPErrors.swift */,
+			);
+			path = HTTPClient;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,9 +293,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5625FCD2C07556200EE1AD5 /* HTTPClient+Live.swift in Sources */,
 				E5625FC62C073F1600EE1AD5 /* MainFeature+Reducer.swift in Sources */,
+				E5625FCF2C07596800EE1AD5 /* HTTPErrors.swift in Sources */,
 				E5625F982C073B6400EE1AD5 /* ClimateApp.swift in Sources */,
 				E5625FC82C07400400EE1AD5 /* MainFeature+View.swift in Sources */,
+				E5625FCB2C0754AA00EE1AD5 /* HTTPClient+Interface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
