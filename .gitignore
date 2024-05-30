@@ -72,3 +72,5 @@ fastlane/test_output
 
 iOSInjectionProject/
 .envrc
+Climate.xcodeproj/xcshareddata/
+Climate.xcodeproj/project.xcworkspace/xcshareddata

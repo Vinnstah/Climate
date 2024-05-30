@@ -5,6 +5,7 @@ import CoreLocation
 @Reducer
 struct Main {
     @Dependency(LocationClient.self) var locationClient
+    @Dependency(ApiClient.self) var apiClient
     
     @ObservableState
     struct State: Equatable {
@@ -44,7 +45,9 @@ struct Main {
                 
             case let .getCurrentLocation(.success(location)):
                 state.currentLocation = location
-                return .none
+                return .run { [state = state] send in
+                    print(try await apiClient.currentWeatherData(state.currentLocation!))
+                }
                 
             case let .getCurrentLocation(.failure(error)):
                 // TODO: handle error
