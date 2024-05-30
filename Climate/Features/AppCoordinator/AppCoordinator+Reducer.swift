@@ -1,6 +1,5 @@
 import ComposableArchitecture
 import Foundation
-import SwiftUI
 
 @Reducer
 struct AppCoordinator {
@@ -20,8 +19,17 @@ struct AppCoordinator {
         case main(Main)
     }
     
-    enum Action: Equatable {
+    enum Action: Equatable, ViewAction {
+        
+        @CasePathable
+        public enum View: Equatable {
+            case onAppear
+            case mainTapped
+            case searchTapped
+        }
+        
         case destination(PresentationAction<Destination.Action>)
+        case view(View)
     }
     
     var body: some ReducerOf<Self> {
@@ -29,31 +37,17 @@ struct AppCoordinator {
             switch action {
             case .destination(_):
                 return .none
+            case .view(.onAppear):
+                return.none
+            case .view(.mainTapped):
+                state.destination = .main(Main.State())
+                return.none
+                
+            case .view(.searchTapped):
+                state.destination = .search(Search.State())
+                return.none
             }
         }
         .ifLet(\.$destination, action: \.destination)
-    }
-}
-
-extension AppCoordinator {
-    struct View: SwiftUI.View {
-        let store: StoreOf<AppCoordinator>
-        
-        public init(store: StoreOf<AppCoordinator>) {
-            self.store = store
-        }
-        
-        var body: some SwiftUI.View {
-            VStack {
-                switch store.state.destination {
-                case .main:
-                    Main.View()
-                case .search:
-                    Search.View()
-                case .none:
-                    EmptyView()
-                }
-            }
-        }
     }
 }

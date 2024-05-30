@@ -21,7 +21,8 @@
 		E5625FCF2C07596800EE1AD5 /* HTTPErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FCE2C07596800EE1AD5 /* HTTPErrors.swift */; };
 		E58553512C07CD81001B1B1C /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553502C07CD81001B1B1C /* TabView.swift */; };
 		E58553542C07D5A9001B1B1C /* SearchFeature+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553532C07D5A9001B1B1C /* SearchFeature+Reducer.swift */; };
-		E58553572C086B40001B1B1C /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553562C086B40001B1B1C /* AppCoordinator.swift */; };
+		E58553572C086B40001B1B1C /* AppCoordinator+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553562C086B40001B1B1C /* AppCoordinator+Reducer.swift */; };
+		E58553592C087A66001B1B1C /* AppCoordinator+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553582C087A66001B1B1C /* AppCoordinator+View.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +59,8 @@
 		E5625FCE2C07596800EE1AD5 /* HTTPErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPErrors.swift; sourceTree = "<group>"; };
 		E58553502C07CD81001B1B1C /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		E58553532C07D5A9001B1B1C /* SearchFeature+Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchFeature+Reducer.swift"; sourceTree = "<group>"; };
-		E58553562C086B40001B1B1C /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		E58553562C086B40001B1B1C /* AppCoordinator+Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppCoordinator+Reducer.swift"; sourceTree = "<group>"; };
+		E58553582C087A66001B1B1C /* AppCoordinator+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppCoordinator+View.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,7 +203,8 @@
 		E58553552C086B36001B1B1C /* AppCoordinator */ = {
 			isa = PBXGroup;
 			children = (
-				E58553562C086B40001B1B1C /* AppCoordinator.swift */,
+				E58553562C086B40001B1B1C /* AppCoordinator+Reducer.swift */,
+				E58553582C087A66001B1B1C /* AppCoordinator+View.swift */,
 			);
 			path = AppCoordinator;
 			sourceTree = "<group>";
@@ -342,7 +345,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E58553572C086B40001B1B1C /* AppCoordinator.swift in Sources */,
+				E58553572C086B40001B1B1C /* AppCoordinator+Reducer.swift in Sources */,
+				E58553592C087A66001B1B1C /* AppCoordinator+View.swift in Sources */,
 				E5625FCD2C07556200EE1AD5 /* HTTPClient+Live.swift in Sources */,
 				E5625FC62C073F1600EE1AD5 /* MainFeature+Reducer.swift in Sources */,
 				E5625FCF2C07596800EE1AD5 /* HTTPErrors.swift in Sources */,
