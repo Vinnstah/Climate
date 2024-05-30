@@ -4,12 +4,13 @@ import ComposableArchitecture
 @main
 struct ClimateApp: App {
     
-    static let store = Store(initialState: MainFeature.State()) {
-        MainFeature()
+    let store = Store(initialState: AppCoordinator.State()) {
+        AppCoordinator()
     }
+    
     var body: some Scene {
         WindowGroup {
-            MainFeature.View()
+            AppCoordinator.View(store: store)
         }
     }
 }

@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import ComposableArchitecture
 
-extension MainFeature {
+extension Main {
     struct View: SwiftUI.View {
         var body: some SwiftUI.View {
             GeometryReader { geo in

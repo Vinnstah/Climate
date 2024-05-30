@@ -1,18 +1,20 @@
 import ComposableArchitecture
 import Foundation
+import SwiftUI
 
 @Reducer
-struct Main {
+struct Search {
     
     @ObservableState
     struct State: Equatable {}
     
     enum Action: Equatable {}
-    
-    var body: some ReducerOf<Self> {
-        Reduce { state, action in
-            switch action {
-            }
+}
+
+extension Search {
+    struct View: SwiftUI.View {
+        var body: some SwiftUI.View {
+            Text("Search ")
         }
     }
 }
