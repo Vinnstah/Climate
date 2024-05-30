@@ -5,7 +5,7 @@ import DependenciesMacros
 
 @DependencyClient
 public struct LocationClient: DependencyKey {
-    public typealias GetCurrentLocation = @Sendable () throws -> CLLocationCoordinate2D
+    public typealias GetCurrentLocation = @Sendable () throws -> Result<CLLocationCoordinate2D, LocationError>
     public typealias RequestAuthorization = @Sendable () throws -> Result<EquatableVoid, LocationError>
     
     public let getCurrentLocation: GetCurrentLocation

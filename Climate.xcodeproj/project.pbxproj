@@ -26,6 +26,7 @@
 		E585535C2C088139001B1B1C /* LocationClient+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E585535B2C088139001B1B1C /* LocationClient+Interface.swift */; };
 		E585535E2C0881ED001B1B1C /* LocationClient+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = E585535D2C0881ED001B1B1C /* LocationClient+Live.swift */; };
 		E58553612C08AB47001B1B1C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553602C08AB47001B1B1C /* LocationManager.swift */; };
+		E58553632C08AC38001B1B1C /* LocationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553622C08AC38001B1B1C /* LocationError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		E585535B2C088139001B1B1C /* LocationClient+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationClient+Interface.swift"; sourceTree = "<group>"; };
 		E585535D2C0881ED001B1B1C /* LocationClient+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationClient+Live.swift"; sourceTree = "<group>"; };
 		E58553602C08AB47001B1B1C /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		E58553622C08AC38001B1B1C /* LocationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 		E585534D2C07CD3C001B1B1C /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				E59F71002C08FE99001F0263 /* ApiClient */,
 				E585535A2C088127001B1B1C /* LocationClient */,
 				E5625FC92C07549C00EE1AD5 /* HTTPClient */,
 			);
@@ -222,8 +225,16 @@
 				E585535B2C088139001B1B1C /* LocationClient+Interface.swift */,
 				E58553602C08AB47001B1B1C /* LocationManager.swift */,
 				E585535D2C0881ED001B1B1C /* LocationClient+Live.swift */,
+				E58553622C08AC38001B1B1C /* LocationError.swift */,
 			);
 			path = LocationClient;
+			sourceTree = "<group>";
+		};
+		E59F71002C08FE99001F0263 /* ApiClient */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ApiClient;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,6 +380,7 @@
 				E5625FCD2C07556200EE1AD5 /* HTTPClient+Live.swift in Sources */,
 				E5625FC62C073F1600EE1AD5 /* MainFeature+Reducer.swift in Sources */,
 				E5625FCF2C07596800EE1AD5 /* HTTPErrors.swift in Sources */,
+				E58553632C08AC38001B1B1C /* LocationError.swift in Sources */,
 				E5625F982C073B6400EE1AD5 /* ClimateApp.swift in Sources */,
 				E58553512C07CD81001B1B1C /* TabView.swift in Sources */,
 				E58553542C07D5A9001B1B1C /* SearchFeature+Reducer.swift in Sources */,

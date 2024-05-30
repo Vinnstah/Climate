@@ -10,25 +10,18 @@ extension LocationClient {
         
         return .init(
             getCurrentLocation: {
-                manager.checkLocationAuthorization()
+                try manager.checkLocationAuthorization()
+                
                 guard let location = manager.lastKnownLocation else {
-                    throw LocationError.failedToGetCurrentLocation
+                    throw LocationError.failedToGetLastKnownLocation
                 }
-                return location
+                
+                return .success(location)
+                
             }, requestAuthorization: {
                 manager.requestAuthorization()
                 
                 return .success(EquatableVoid())
             })
     }()
-}
-
-//extension LocationClient: TestDependencyKey {
-//    static let unimplementedLocationClient = LocationClient()
-//  static let testValue = APIClient()
-//}
-
-public enum LocationError: Error, Equatable {
-    case locationTrackingUnauthorized
-    case failedToGetCurrentLocation
 }

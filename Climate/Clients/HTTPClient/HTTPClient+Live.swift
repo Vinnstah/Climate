@@ -4,8 +4,9 @@ import Foundation
 extension HTTPClient {
     public static let liveValue: HTTPClient = {
         let urlSession = URLSession.shared
-        
-        return .init(
+//        return .init guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
+//            fatalError("Did you forget to export API_KEY environment variable?")
+//        }
             makeRequest: { request in
                 
                 let (data, urlResponse) = try await urlSession.data(for: request)

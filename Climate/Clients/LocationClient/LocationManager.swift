@@ -10,38 +10,45 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
         manager.requestAlwaysAuthorization()
     }
     
-    func checkLocationAuthorization() {
+    func checkLocationAuthorization() throws {
         
         manager.delegate = self
         manager.startUpdatingLocation()
         
         switch manager.authorizationStatus {
-        case .notDetermined://The user choose allow or denny your app to get the location yet
+        case .notDetermined:
             manager.requestWhenInUseAuthorization()
             
-        case .restricted://The user cannot change this app’s status, possibly due to active restrictions such as parental controls being in place.
-            print("Location restricted")
+        case .restricted:
+            throw LocationError.locationTrackingRestricted
             
-        case .denied://The user dennied your app to get location or disabled the services location or the phone is in airplane mode
-            print("Location denied")
+        case .denied:
+            throw LocationError.locationTrackingDenied
             
-        case .authorizedAlways://This authorization allows you to use all location services and receive location events whether or not your app is in use.
+        case .authorizedAlways:
             lastKnownLocation = manager.location?.coordinate
             
-        case .authorizedWhenInUse://This authorization allows you to use all location services and receive location events only when your app is in use
+        case .authorizedWhenInUse:
             lastKnownLocation = manager.location?.coordinate
             
         @unknown default:
-            print("Location service disabled")
+            throw LocationError.locationServiceDisabled
         
         }
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        checkLocationAuthorization()
+        // TODO: Handle errors
+        try? checkLocationAuthorization()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         lastKnownLocation = locations.first?.coordinate
+    }
+}
+
+extension CLLocationCoordinate2D: Equatable {
+    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        (lhs.latitude, lhs.longitude) == (rhs.latitude, rhs.longitude)
     }
 }
