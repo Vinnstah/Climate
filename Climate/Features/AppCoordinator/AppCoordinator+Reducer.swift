@@ -23,7 +23,6 @@ struct AppCoordinator {
         
         @CasePathable
         public enum View: Equatable {
-            case onAppear
             case mainTapped
             case searchTapped
         }
@@ -37,8 +36,7 @@ struct AppCoordinator {
             switch action {
             case .destination(_):
                 return .none
-            case .view(.onAppear):
-                return.none
+           
             case .view(.mainTapped):
                 state.destination = .main(Main.State())
                 return.none

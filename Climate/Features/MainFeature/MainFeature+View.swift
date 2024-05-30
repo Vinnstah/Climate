@@ -4,6 +4,7 @@ import ComposableArchitecture
 
 extension Main {
     struct View: SwiftUI.View {
+        let store: StoreOf<Main>
         var body: some SwiftUI.View {
             GeometryReader { geo in
                 HStack {
@@ -29,6 +30,9 @@ extension Main {
                     }
                     Spacer()
                 }
+            }
+            .onAppear {
+                store.send(.view(.onAppear))
             }
         }
     }

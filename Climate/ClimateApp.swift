@@ -6,6 +6,7 @@ struct ClimateApp: App {
     
     let store = Store(initialState: AppCoordinator.State()) {
         AppCoordinator()
+            ._printChanges()
     }
     
     var body: some Scene {

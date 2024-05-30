@@ -25,6 +25,7 @@
 		E58553592C087A66001B1B1C /* AppCoordinator+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553582C087A66001B1B1C /* AppCoordinator+View.swift */; };
 		E585535C2C088139001B1B1C /* LocationClient+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E585535B2C088139001B1B1C /* LocationClient+Interface.swift */; };
 		E585535E2C0881ED001B1B1C /* LocationClient+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = E585535D2C0881ED001B1B1C /* LocationClient+Live.swift */; };
+		E58553612C08AB47001B1B1C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553602C08AB47001B1B1C /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		E58553582C087A66001B1B1C /* AppCoordinator+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppCoordinator+View.swift"; sourceTree = "<group>"; };
 		E585535B2C088139001B1B1C /* LocationClient+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationClient+Interface.swift"; sourceTree = "<group>"; };
 		E585535D2C0881ED001B1B1C /* LocationClient+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationClient+Live.swift"; sourceTree = "<group>"; };
+		E58553602C08AB47001B1B1C /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				E585535B2C088139001B1B1C /* LocationClient+Interface.swift */,
+				E58553602C08AB47001B1B1C /* LocationManager.swift */,
 				E585535D2C0881ED001B1B1C /* LocationClient+Live.swift */,
 			);
 			path = LocationClient;
@@ -371,6 +374,7 @@
 				E58553542C07D5A9001B1B1C /* SearchFeature+Reducer.swift in Sources */,
 				E5625FC82C07400400EE1AD5 /* MainFeature+View.swift in Sources */,
 				E5625FCB2C0754AA00EE1AD5 /* HTTPClient+Interface.swift in Sources */,
+				E58553612C08AB47001B1B1C /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

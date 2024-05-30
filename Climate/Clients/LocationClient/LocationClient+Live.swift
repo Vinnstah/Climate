@@ -4,25 +4,31 @@ import Foundation
 
 extension LocationClient {
     
-    static let liveValue: LocationClient = {
+    public static let liveValue: LocationClient = {
         
-        let locationManager = CLLocationManager()
-        locationManager.requestAlwaysAuthorization()
+        let manager = LocationManager()
         
         return .init(
             getCurrentLocation: {
-                guard locationManager.authorizationStatus == .authorizedAlways else {
-                    throw LocationError.locationTrackingUnauthorized
-                }
-                guard let location = locationManager.location else {
+                manager.checkLocationAuthorization()
+                guard let location = manager.lastKnownLocation else {
                     throw LocationError.failedToGetCurrentLocation
                 }
                 return location
+            }, requestAuthorization: {
+                manager.requestAuthorization()
+                
+                return .success(EquatableVoid())
             })
     }()
 }
 
-enum LocationError: Error {
+//extension LocationClient: TestDependencyKey {
+//    static let unimplementedLocationClient = LocationClient()
+//  static let testValue = APIClient()
+//}
+
+public enum LocationError: Error, Equatable {
     case locationTrackingUnauthorized
     case failedToGetCurrentLocation
 }

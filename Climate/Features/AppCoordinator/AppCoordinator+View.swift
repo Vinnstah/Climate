@@ -15,11 +15,15 @@ extension AppCoordinator {
                 VStack {
                     switch store.state.destination {
                     case .main:
-                        Main.View()
-                            .transition(.move(edge: .leading))
+                        if let store = store.scope(state: \.destination?.main, action: \.destination.main) {
+                            Main.View(store: store)
+                                .transition(.move(edge: .leading))
+                        }
                     case .search:
-                        Search.View()
-                            .transition(.move(edge: .trailing))
+                        if let store = store.scope(state: \.destination?.search, action: \.destination.search) {
+                            Search.View(store: store)
+                                .transition(.move(edge: .trailing))
+                        }
                     case .none:
                         EmptyView()
                     }

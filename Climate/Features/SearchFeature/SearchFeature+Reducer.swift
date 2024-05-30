@@ -13,6 +13,7 @@ struct Search {
 
 extension Search {
     struct View: SwiftUI.View {
+        let store: StoreOf<Search>
         var body: some SwiftUI.View {
             Text("Search ")
         }
