@@ -1,23 +1,20 @@
 import Foundation
 
-public enum TemperatureUnits: String {
-    case metric
-    case imperical
-}
-
-
-
 public struct Weather: Decodable {
     let coordinates: Coordinates
     let temperature: Temperature
     let currentWeather: [CurrentWeather]
     let wind: Wind
+    let rain: Rain
+    let clouds: Clouds
     
     public enum CodingKeys: String, CodingKey {
         case coordinates = "coord"
         case temperature = "main"
         case currentWeather = "weather"
         case wind
+        case rain
+        case clouds
     }
     
     public struct Coordinates: Equatable, Codable {
@@ -66,29 +63,25 @@ public struct Weather: Decodable {
             case direction = "deg"
         }
     }
-    //      "visibility": 10000,
-    //      "wind": {
-    //        "speed": 0.62,
-    //        "deg": 349,
-    //        "gust": 1.18
-    //      },
-    //      "rain": {
-    //        "1h": 3.16
-    //      },
-    //      "clouds": {
-    //        "all": 100
-    //      },
-    //      "dt": 1661870592,
-    //      "sys": {
-    //        "type": 2,
-    //        "id": 2075663,
-    //        "country": "IT",
-    //        "sunrise": 1661834187,
-    //        "sunset": 1661882248
-    //      },
-    //      "timezone": 7200,
-    //      "id": 3163858,
-    //      "name": "Zocca",
-    //      "cod": 200
-    //    }
+    
+    public struct Rain: Equatable, Codable {
+        let nextHour: Double
+        
+        public enum CodingKeys: String, CodingKey {
+            case nextHour = "1h"
+        }
+    }
+    
+    public struct Clouds: Equatable, Codable {
+        let coverage: UInt8
+        
+        public enum CodingKeys: String, CodingKey {
+            case coverage = "all"
+        }
+    }
+}
+
+public enum TemperatureUnits: String {
+    case metric
+    case imperical
 }
