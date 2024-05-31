@@ -24,7 +24,9 @@ struct Main {
     }
     
     var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             
             switch action {
                 
@@ -46,7 +48,12 @@ struct Main {
             case let .getCurrentLocation(.success(location)):
                 state.currentLocation = location
                 return .run { [state = state] send in
-                    print(try await apiClient.currentWeatherData(state.currentLocation!))
+                    print(
+                        try await apiClient.currentWeatherData(
+                            state.currentLocation!,
+                            TemperatureUnits.metric
+                        )
+                    )
                 }
                 
             case let .getCurrentLocation(.failure(error)):

@@ -6,7 +6,7 @@ import CoreLocation
 @DependencyClient
 public struct ApiClient: Sendable, DependencyKey {
     
-    public typealias CurrentWeatherData = @Sendable (CLLocationCoordinate2D) async throws -> Weather
+    public typealias CurrentWeatherData = @Sendable (CLLocationCoordinate2D, TemperatureUnits?) async throws -> Weather
     
     public let currentWeatherData: CurrentWeatherData
     

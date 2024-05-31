@@ -37,7 +37,7 @@ extension ApiClient {
         }
         
         return .init(
-            currentWeatherData: { location in
+            currentWeatherData: { location, unit in
                 print(ProcessInfo.processInfo.environment.keys)
                 guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
                     fatalError("Did you forget to export API_KEY environment variable?")
@@ -47,6 +47,7 @@ extension ApiClient {
                         URLQueryItem(name: "lat", value: location.latitude.formatted()),
                         URLQueryItem(name: "lon", value: location.longitude.formatted()),
                         URLQueryItem(name: "appid", value: apiKey),
+                        URLQueryItem(name: "units", value: unit?.rawValue),
                     ]
                 })
             
