@@ -9,7 +9,7 @@ struct AppCoordinator {
         @Presents var destination: Destination.State?
         
         public init() {
-            self.destination = .main(Main.State())
+            self.destination = .main(Main.State(weather: Shared(.mock)))
         }
     }
     
@@ -38,7 +38,7 @@ struct AppCoordinator {
                 return .none
            
             case .view(.mainTapped):
-                state.destination = .main(Main.State())
+                state.destination = .main(Main.State(weather: Shared(.mock)))
                 return.none
                 
             case .view(.searchTapped):

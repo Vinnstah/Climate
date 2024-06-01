@@ -24,7 +24,7 @@ extension HTTPClient {
     }()
 }
 
-//extension HTTPClient: TestDependencyKey {
-//    public static let testValue = Self(
-//        makeRequest: unimplemented("HTTPClient.makeRequest"))
-//}
+extension HTTPClient: TestDependencyKey {
+    public static let testValue = Self(
+        makeRequest: unimplemented("HTTPClient.makeRequest"))
+}

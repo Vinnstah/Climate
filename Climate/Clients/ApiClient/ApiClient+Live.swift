@@ -52,7 +52,6 @@ extension ApiClient {
                 })
             
                 let data = try await httpClient.makeRequest(urlRequest)
-                
                 return try decoder.decode(Weather.self, from: data)
         })
     }()

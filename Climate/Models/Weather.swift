@@ -1,11 +1,11 @@
 import Foundation
 
-public struct Weather: Decodable {
+public struct Weather: Decodable, Equatable {
     let coordinates: Coordinates
     let temperature: Temperature
     let currentWeather: [CurrentWeather]
     let wind: Wind
-    let rain: Rain
+    let rain: Rain?
     let clouds: Clouds
     
     public enum CodingKeys: String, CodingKey {
@@ -83,5 +83,41 @@ public struct Weather: Decodable {
 
 public enum TemperatureUnits: String {
     case metric
-    case imperical
+    case imperial
+    
+    var description: String {
+        switch self {
+        case .metric: return "C"
+        case .imperial: return "F"
+        }
+    }
+}
+
+extension Weather {
+    static let mock: Self = Weather(
+        coordinates: Coordinates(
+            lat: 12.123,
+            lon: 12.123
+        ),
+        temperature: Temperature(
+            temp: 22.1,
+            feelsLike: 24.2,
+            minTemp: 18.2,
+            maxTemp: 26.5,
+            pressure: 1560,
+            humidity: 60
+        ),
+        currentWeather: [CurrentWeather(
+            id: 12345,
+            condition: "Sun",
+            description: "Sun",
+            icon: "01d"
+        )],
+        wind: Wind(
+            speed: 12.2,
+            direction: 256
+        ),
+        rain: nil,
+        clouds: Clouds(coverage: 44)
+    )
 }

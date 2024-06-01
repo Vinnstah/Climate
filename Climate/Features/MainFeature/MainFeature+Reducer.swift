@@ -9,56 +9,71 @@ struct Main {
     
     @ObservableState
     struct State: Equatable {
-        var currentLocation: CLLocationCoordinate2D? = nil
+        var location: CLLocationCoordinate2D? = nil
+        var units: TemperatureUnits = .metric
+        // TODO: Add shared r/w
+        @Shared var weather: Weather
     }
     
     enum Action: Equatable, ViewAction {
-        @CasePathable
+        
         public enum View: Equatable {
             case onAppear
         }
         
+        public enum Location: Equatable {
+            case requestAuthorization(Result<EquatableVoid, LocationError>)
+            case getCurrentLocation(Result<CLLocationCoordinate2D, LocationError>)
+        }
+        
+        public enum WeatherAction: Equatable {
+            case getWeatherForCurrentLocation(Weather)
+        }
+        
+        case weather(WeatherAction)
         case view(View)
-        case requestAuthorization(Result<EquatableVoid, LocationError>)
-        case getCurrentLocation(Result<CLLocationCoordinate2D, LocationError>)
+        case location(Location)
     }
     
     var body: some ReducerOf<Self> {
         Reduce {
-            state,
-            action in
+            state, action in
             
             switch action {
                 
             case .view(.onAppear):
                 return .run { send in
-                    await send(.requestAuthorization(try locationClient.requestAuthorization()))
+                    await send(.location(.requestAuthorization(try locationClient.requestAuthorization())))
                 }
                 
-            case .requestAuthorization(.success):
+            case .location(.requestAuthorization(.success)):
                 print("Success")
                 return .run { send in
-                    await send(.getCurrentLocation(try locationClient.getCurrentLocation()))
+                    await send(.location(.getCurrentLocation(try locationClient.getCurrentLocation())))
                 }
                 
-            case let .requestAuthorization(.failure(error)):
+            case let .location(.requestAuthorization(.failure(error))):
                 print(error)
                 return .none
                 
-            case let .getCurrentLocation(.success(location)):
-                state.currentLocation = location
-                return .run { [state = state] send in
-                    print(
-                        try await apiClient.currentWeatherData(
-                            state.currentLocation!,
-                            TemperatureUnits.metric
-                        )
+            case let .location(.getCurrentLocation(.success(location))):
+                state.location = location
+                return .run { [location] send in
+                    await send(.weather(.getWeatherForCurrentLocation(try await apiClient.currentWeatherData(
+                        location,
+                        TemperatureUnits.metric
+                    )))
+                        
                     )
                 }
                 
-            case let .getCurrentLocation(.failure(error)):
+            case let .location(.getCurrentLocation(.failure(error))):
                 // TODO: handle error
                 print(error)
+                return .none
+                
+            case let .weather(.getWeatherForCurrentLocation(weather)):
+                state.weather = weather
                 return .none
             }
         }
