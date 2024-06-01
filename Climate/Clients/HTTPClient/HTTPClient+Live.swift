@@ -28,3 +28,10 @@ extension HTTPClient: TestDependencyKey {
     public static let testValue = Self(
         makeRequest: unimplemented("HTTPClient.makeRequest"))
 }
+
+extension DependencyValues {
+    public var httpClient: HTTPClient {
+        get { self[HTTPClient.self] }
+        set { self[HTTPClient.self] = newValue }
+    }
+}

@@ -57,7 +57,14 @@ extension ApiClient {
     }()
 }
 
-//extension ApiClient: TestDependencyKey {
-//    public static let testValue = Self(
-//        currentWeatherData: unimplemented("ApiClient.currentWeatherData"))
-//}
+extension ApiClient: TestDependencyKey {
+    public static let testValue = Self(
+        currentWeatherData: unimplemented("ApiClient.currentWeatherData"))
+}
+
+extension DependencyValues {
+    public var apiClient: ApiClient {
+        get { self[ApiClient.self] }
+        set { self[ApiClient.self] = newValue }
+    }
+}

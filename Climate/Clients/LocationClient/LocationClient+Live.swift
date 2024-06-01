@@ -25,3 +25,17 @@ extension LocationClient {
             })
     }()
 }
+
+
+extension LocationClient: TestDependencyKey {
+    public static let testValue = Self(
+        getCurrentLocation: unimplemented("LocationClient.getCurrentLocation"), 
+        requestAuthorization: unimplemented("LocationClient.requestAuthorization"))
+}
+
+extension DependencyValues {
+    public var locationClient: LocationClient {
+        get { self[LocationClient.self] }
+        set { self[LocationClient.self] = newValue }
+    }
+}
