@@ -59,10 +59,12 @@ extension ApiClient {
                     fatalError("Did you forget to export API_KEY environment variable?")
                 }
                 
-                var urlRequest = try buildRequest(path: "data/2.5/weather", addQueryItems: {
+                var urlRequest = try buildRequest(path: "geo/1.0/direct", addQueryItems: {
                     if let state = state {
+                        var formattedState = state.state
+                        formattedState.append(",")
                         return [
-                            URLQueryItem(name: "q", value: "\(location.city),\(state),\(location.countryCode)"),
+                            URLQueryItem(name: "q", value: "\(location.city),\(formattedState),\(location.countryCode)"),
                             URLQueryItem(name: "limit", value: "5"),
                             URLQueryItem(name: "appid", value: apiKey),
                         ]
@@ -74,7 +76,8 @@ extension ApiClient {
                         ]
                     }
                 })
-                
+                print(urlRequest.url!)
+                print(urlRequest.url?.query())
                 let data = try await httpClient.makeRequest(urlRequest)
                 return try decoder.decode([SearchResult].self, from: data)
             })

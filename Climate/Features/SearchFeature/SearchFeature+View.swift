@@ -62,26 +62,31 @@ extension Search {
                     HStack {
                         Spacer()
                         Button("Get Locations") {
-                            
+                            store.send(.view(.getLocationsButtonTapped))
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(Color("AccentColor"))
+                        .disabled(store.state.invalidInput() || store.state.requestInFlight)
                     }
                     .listRowBackground(Color("BackgroundColor"))
                 }
                 .scrollContentBackground(.hidden)
                 
-                
-                if !store.searchResult.isEmpty {
+                // TODO: BUILD A MODAL INSTEAD?
+                if store.searchResult != [] {
                     Divider()
                     List {
                         ForEach(store.searchResult, id: \.self) { location in
                             Section {
                                 Text(location.name)
+                                Text("Latitude: \(location.lat)")
+                                Text("Longitude: \(location.lon)")
                             }
+                            .listRowBackground(Color("BackgroundColor"))
                         }
                     }
                     .listRowBackground(Color("PrimaryColor"))
+                    .scrollContentBackground(.hidden)
                 }
             }
         }
