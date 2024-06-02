@@ -11,7 +11,7 @@ extension ApiClient {
             path: String,
             addQueryItems: @escaping () -> ([URLQueryItem])
         ) throws -> URLRequest {
-            let baseURL = URL(string: "https://api.openweathermap.org/data/2.5/")!
+            let baseURL = URL(string: "https://api.openweathermap.org/")!
             
             let url: URL = {
                 guard var urlComponents = URLComponents(
@@ -38,11 +38,10 @@ extension ApiClient {
         
         return .init(
             currentWeatherData: { location, unit in
-                print(ProcessInfo.processInfo.environment.keys)
                 guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
                     fatalError("Did you forget to export API_KEY environment variable?")
                 }
-                var urlRequest = try buildRequest(path: "weather", addQueryItems: {
+                var urlRequest = try buildRequest(path: "data/2.5/weather", addQueryItems: {
                     return [
                         URLQueryItem(name: "lat", value: location.latitude.formatted()),
                         URLQueryItem(name: "lon", value: location.longitude.formatted()),
@@ -50,16 +49,42 @@ extension ApiClient {
                         URLQueryItem(name: "units", value: unit?.rawValue),
                     ]
                 })
-            
+                
                 let data = try await httpClient.makeRequest(urlRequest)
                 return try decoder.decode(Weather.self, from: data)
-        })
+                
+            },
+            coordinatesByLocation: { location, state in
+                guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
+                    fatalError("Did you forget to export API_KEY environment variable?")
+                }
+                
+                var urlRequest = try buildRequest(path: "data/2.5/weather", addQueryItems: {
+                    if let state = state {
+                        return [
+                            URLQueryItem(name: "q", value: "\(location.city),\(state),\(location.countryCode)"),
+                            URLQueryItem(name: "limit", value: "5"),
+                            URLQueryItem(name: "appid", value: apiKey),
+                        ]
+                    } else {
+                        return [
+                            URLQueryItem(name: "q", value: "\(location.city),\(location.countryCode)"),
+                            URLQueryItem(name: "limit", value: "5"),
+                            URLQueryItem(name: "appid", value: apiKey),
+                        ]
+                    }
+                })
+                
+                let data = try await httpClient.makeRequest(urlRequest)
+                return try decoder.decode([SearchResult].self, from: data)
+            })
     }()
 }
 
 extension ApiClient: TestDependencyKey {
     public static let testValue = Self(
-        currentWeatherData: unimplemented("ApiClient.currentWeatherData"))
+        currentWeatherData: unimplemented("ApiClient.currentWeatherData"),
+        coordinatesByLocation: unimplemented("ApiClient.coordinatesByLocation"))
 }
 
 extension DependencyValues {

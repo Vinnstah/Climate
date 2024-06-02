@@ -30,6 +30,9 @@ extension AppCoordinator {
                 }
                 .tabView(home: { store.send(.view(.mainTapped)) }, search: { store.send(.view(.searchTapped)) }, geo: geo)
                 .animation(.default, value: store.state.destination)
+                .onAppear {
+                    store.send(.view(.onAppear))
+                }
             }
         }
     }

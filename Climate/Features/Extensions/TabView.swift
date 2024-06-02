@@ -32,6 +32,7 @@ extension View {
                 }
             }
         }
+        .frame(maxWidth: .infinity)
         .background(Color("BackgroundColor").ignoresSafeArea())
     }
 }

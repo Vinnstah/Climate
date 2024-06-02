@@ -79,9 +79,3 @@ struct ForecastView: View {
         
     }
 }
-
-extension Double {
-    func roundedNumberFormatted() -> String {
-        return self.formatted(.number.rounded(increment: 1))
-    }
-}

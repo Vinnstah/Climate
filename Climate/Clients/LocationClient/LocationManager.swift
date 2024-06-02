@@ -47,8 +47,3 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
     }
 }
 
-extension CLLocationCoordinate2D: Equatable {
-    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-        (lhs.latitude, lhs.longitude) == (rhs.latitude, rhs.longitude)
-    }
-}

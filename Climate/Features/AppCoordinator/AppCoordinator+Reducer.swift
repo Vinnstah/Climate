@@ -1,16 +1,14 @@
 import ComposableArchitecture
 import Foundation
+import CoreLocation
 
 @Reducer
 struct AppCoordinator {
     
     @ObservableState
     struct State: Equatable {
-        @Presents var destination: Destination.State?
-        
-        public init() {
-            self.destination = .main(Main.State(weather: Shared(.mock)))
-        }
+        @Presents var destination: Destination.State? 
+        @Shared var location: CLLocationCoordinate2D?
     }
     
     @Reducer(state: .equatable, action: .equatable)
@@ -25,6 +23,7 @@ struct AppCoordinator {
         public enum View: Equatable {
             case mainTapped
             case searchTapped
+            case onAppear
         }
         
         case destination(PresentationAction<Destination.Action>)
@@ -34,16 +33,20 @@ struct AppCoordinator {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .destination(_):
+            case .destination:
+                return .none
+                
+            case .view(.onAppear):
+                state.destination = .main(Main.State(weather: Shared(.mock)))
                 return .none
            
             case .view(.mainTapped):
                 state.destination = .main(Main.State(weather: Shared(.mock)))
-                return.none
+                return .none
                 
             case .view(.searchTapped):
-                state.destination = .search(Search.State())
-                return.none
+                state.destination = .search(Search.State(location: state.location))
+                return .none
             }
         }
         .ifLet(\.$destination, action: \.destination)

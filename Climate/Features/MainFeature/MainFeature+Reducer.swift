@@ -9,7 +9,7 @@ struct Main {
     
     @ObservableState
     struct State: Equatable {
-        var location: CLLocationCoordinate2D? = nil
+        var location: CLLocationCoordinate2D?
         var units: TemperatureUnits = .metric
         // TODO: Add shared r/w
         @Shared var weather: Weather
