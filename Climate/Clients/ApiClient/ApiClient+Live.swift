@@ -66,9 +66,6 @@ extension ApiClient {
                 var urlRequest = try buildRequest(
                     path: "geo/1.0/direct",
                     addQueryItems: {
-//                        if let stateCode = location.stateCode {
-//                            var formattedState = state?.stateCode
-//                            formattedState?.append(",")
                             return [
                                 URLQueryItem(
                                     name: "q",
@@ -77,13 +74,6 @@ extension ApiClient {
                                 URLQueryItem(name: "limit", value: "5"),
                                 URLQueryItem(name: "appid", value: apiKey),
                             ]
-//                        } else {
-//                            return [
-//                                URLQueryItem(name: "q", value: "\(location.city),\(String(describing: state?.countryCode))"),
-//                                URLQueryItem(name: "limit", value: "5"),
-//                                URLQueryItem(name: "appid", value: apiKey),
-//                            ]
-//                        }
                     })
                 let data = try await httpClient.makeRequest(urlRequest)
                 return try decoder.decode([SearchResult].self, from: data)

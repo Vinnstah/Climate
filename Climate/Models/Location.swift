@@ -27,6 +27,7 @@ extension Location {
         )
     }()
 }
+
 public struct SearchResult: Equatable, Codable, Hashable {
     let name: String
     let lat: Double

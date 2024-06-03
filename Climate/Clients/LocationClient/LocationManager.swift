@@ -42,7 +42,10 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
         try? checkLocationAuthorization()
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(
+        _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
         lastKnownLocation = locations.first?.coordinate
     }
 }
