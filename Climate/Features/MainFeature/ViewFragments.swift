@@ -9,6 +9,11 @@ struct CurrentWeatherView: View {
     var body: some View {
         VStack(alignment: .center) {
             HStack {
+                Spacer()
+                Text("City Name")
+                    .fontWeight(.bold)
+            }
+            HStack {
                 ZStack {
                     Circle()
                         .frame(width: geo.size.width/2)
@@ -27,8 +32,11 @@ struct CurrentWeatherView: View {
                         .font(.title3)
                 }
             }
-            DetailView(weather: weather, geo: geo)
+            HStack {
+                DetailView(weather: weather, geo: geo)
+            }
         }
+        .padding(15)
     }
 }
 
@@ -41,7 +49,6 @@ struct DetailView: View {
                 Capsule()
                     .foregroundStyle(Color("PrimaryColor"))
                     .frame(width: geo.size.width*0.9, height: geo.size.height*0.15)
-//                    .padding(.horizontal, 10)
                 HStack {
                     VStack {
                         Text("Wind")
@@ -83,16 +90,15 @@ struct ForecastView: View {
                 Rectangle()
                     .clipShape(.capsule)
                     .foregroundStyle(Color("PrimaryColor"))
-                //                                .frame(width: geo.size.width*0.3, height: geo.size.height/5)
                 Rectangle()
                     .clipShape(.capsule)
                     .foregroundStyle(Color("PrimaryColor"))
-                //                                .frame(width: geo.size.width*0.3, height: geo.size.height/5)
                 Rectangle()
                     .clipShape(.capsule)
                     .foregroundStyle(Color("PrimaryColor"))
-                //                                .frame(width: geo.size.width*0.3, height: geo.size.height/5)
             }
+            Spacer()
         }
+        .padding(15)
     }
 }

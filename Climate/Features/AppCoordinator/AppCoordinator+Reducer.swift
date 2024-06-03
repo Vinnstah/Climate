@@ -33,8 +33,6 @@ struct AppCoordinator {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .destination:
-                return .none
                 
             case .view(.onAppear):
                 state.destination = .main(Main.State(weather: Shared(.mock)))
@@ -46,6 +44,14 @@ struct AppCoordinator {
                 
             case .view(.searchTapped):
                 state.destination = .search(Search.State(location: state.location))
+                return .none
+                
+            case let .destination(.presented(.search(.delegate(.setLocation(location))))):
+                state.location = location
+                state.destination = .main(Main.State(weather: Shared(.mock), location: state.location))
+                return .none
+                
+            case .destination:
                 return .none
             }
         }

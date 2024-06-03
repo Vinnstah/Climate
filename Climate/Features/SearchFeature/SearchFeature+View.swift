@@ -9,6 +9,7 @@ extension Search {
         var body: some SwiftUI.View {
             VStack {
                 List {
+                    
                     Section {
                         TextField(text: $store.locationInputs.city.sending(\.cityQueryChanged)) {
                             Text("London, Stockholm, ...")
@@ -32,7 +33,6 @@ extension Search {
                     } header: {
                         Text("Country Code")
                             .foregroundStyle(.white)
-                        //                            .foregroundStyle(Color("AccentColor"))
                     } footer: {
                         Text("ISO 3801, 2- or 3- character codes only")
                             .foregroundStyle(.white)
@@ -72,17 +72,13 @@ extension Search {
                 }
                 .scrollContentBackground(.hidden)
                 
-                // TODO: BUILD A MODAL INSTEAD?
                 if store.searchResult != [] {
                     Divider()
                     List {
                         ForEach(store.searchResult, id: \.self) { location in
-                            SearchResultItem(location: location)
-                            //                            Section {
-                            //                                Text(location.name)
-                            //                                Text("Latitude: \(location.lat)")
-                            //                                Text("Longitude: \(location.lon)")
-                            //                            }
+                            SearchResultItem(location: location) {
+                                store.send(.view(.setLocationButtonTapped(location)))
+                            }
                                 .listRowBackground(Color("BackgroundColor"))
                         }
                     }
@@ -96,6 +92,7 @@ extension Search {
 
 struct SearchResultItem: View {
     let location: SearchResult
+    let setLocationAction: () -> ()
     
     var body: some View {
         HStack {
@@ -124,40 +121,11 @@ struct SearchResultItem: View {
                     .frame(width: 100, height: 100, alignment: .trailing)
                 
                 Button("Set Location") {
+                    setLocationAction()
                     print("Pressed")
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(Color("AccentColor"))
-            }
-        }
-    }
-    
-    struct MapView: View {
-        
-        var position: MapCameraPosition
-        var coordinates: CLLocationCoordinate2D
-        
-        public init(
-            coordinates: CLLocationCoordinate2D
-        ) {
-            self.coordinates = coordinates
-            self.position = .region(
-                .init(
-                    center: CLLocationCoordinate2D(latitude: coordinates.latitude, longitude: coordinates.longitude),
-                    span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001)
-                )
-            )
-        }
-        
-        var body: some View {
-            Map(initialPosition: position) {
-                Marker(coordinate: coordinates) {
-                    Image(systemName: "mappin.circle.fill")
-                        .foregroundColor(.red)
-                        .background(Color.white)
-                        .clipShape(Circle())
-                        .shadow(radius: 10)
-                }
             }
         }
     }

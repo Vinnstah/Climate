@@ -9,10 +9,9 @@ struct Main {
     
     @ObservableState
     struct State: Equatable {
+        @Shared var weather: Weather
         var location: CLLocationCoordinate2D?
         var units: TemperatureUnits = .metric
-        // TODO: Add shared r/w
-        @Shared var weather: Weather
     }
     
     enum Action: Equatable, ViewAction {
@@ -42,12 +41,22 @@ struct Main {
             switch action {
                 
             case .view(.onAppear):
-                return .run { send in
-                    await send(.location(.requestAuthorization(try locationClient.requestAuthorization())))
+                guard state.location != nil else {
+                    return .run { send in
+                        await send(.location(.requestAuthorization(try locationClient.requestAuthorization())))
+                    }
+                }
+                
+                return .run { [location = state.location!] send in
+                    await send(.weather(.getWeatherForCurrentLocation(
+                        try await apiClient.currentWeatherData(
+                            location,
+                            TemperatureUnits.metric
+                        )))
+                    )
                 }
                 
             case .location(.requestAuthorization(.success)):
-                print("Success")
                 return .run { send in
                     await send(.location(.getCurrentLocation(try locationClient.getCurrentLocation())))
                 }
@@ -63,7 +72,6 @@ struct Main {
                         location,
                         TemperatureUnits.metric
                     )))
-                        
                     )
                 }
                 

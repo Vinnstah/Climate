@@ -36,6 +36,7 @@ struct Search {
             self.stateCode = .init(state: "")
             self.searchResult = []
             self.requestInFlight = false
+            self.location = location
         }
     }
     
@@ -46,10 +47,17 @@ struct Search {
         case stateQueryChanged(String)
         case view(View)
         
+        case delegate(DelegateAction)
+        
         case locationQueryResults([SearchResult])
         
         enum View: Equatable {
             case getLocationsButtonTapped
+            case setLocationButtonTapped(SearchResult)
+        }
+        
+        enum DelegateAction: Equatable {
+            case setLocation(CLLocationCoordinate2D)
         }
     }
     
@@ -58,8 +66,7 @@ struct Search {
         
         Reduce { state, action in
             switch action {
-            case .binding:
-                return .none
+
                 
             case let .cityQueryChanged(query):
                 state.locationInputs.city = query
@@ -79,8 +86,17 @@ struct Search {
                 
             case let .locationQueryResults(result):
                 state.requestInFlight = false
-                print(result)
                 state.searchResult = result
+                return .none
+                
+            case let .view(.setLocationButtonTapped(location)):
+                let location = CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon)
+                state.location = location
+                return .run { [location = state.location ] send in
+                    await send(.delegate(.setLocation(location!)))
+                }
+                
+            case .binding, .delegate:
                 return .none
             }
         }
