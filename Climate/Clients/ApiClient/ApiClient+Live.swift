@@ -41,14 +41,16 @@ extension ApiClient {
                 guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
                     fatalError("Did you forget to export API_KEY environment variable?")
                 }
-                var urlRequest = try buildRequest(path: "data/2.5/weather", addQueryItems: {
-                    return [
-                        URLQueryItem(name: "lat", value: location.latitude.formatted()),
-                        URLQueryItem(name: "lon", value: location.longitude.formatted()),
-                        URLQueryItem(name: "appid", value: apiKey),
-                        URLQueryItem(name: "units", value: unit?.rawValue),
-                    ]
-                })
+                var urlRequest = try buildRequest(
+                    path: "data/2.5/weather",
+                    addQueryItems: {
+                        return [
+                            URLQueryItem(name: "lat", value: location.latitude.formatted()),
+                            URLQueryItem(name: "lon", value: location.longitude.formatted()),
+                            URLQueryItem(name: "appid", value: apiKey),
+                            URLQueryItem(name: "units", value: unit?.rawValue),
+                        ]
+                    })
                 
                 let data = try await httpClient.makeRequest(urlRequest)
                 return try decoder.decode(Weather.self, from: data)
@@ -59,25 +61,25 @@ extension ApiClient {
                     fatalError("Did you forget to export API_KEY environment variable?")
                 }
                 
-                var urlRequest = try buildRequest(path: "geo/1.0/direct", addQueryItems: {
-                    if let state = state {
-                        var formattedState = state.state
-                        formattedState.append(",")
-                        return [
-                            URLQueryItem(name: "q", value: "\(location.city),\(formattedState),\(location.countryCode)"),
-                            URLQueryItem(name: "limit", value: "5"),
-                            URLQueryItem(name: "appid", value: apiKey),
-                        ]
-                    } else {
-                        return [
-                            URLQueryItem(name: "q", value: "\(location.city),\(location.countryCode)"),
-                            URLQueryItem(name: "limit", value: "5"),
-                            URLQueryItem(name: "appid", value: apiKey),
-                        ]
-                    }
-                })
-                print(urlRequest.url!)
-                print(urlRequest.url?.query())
+                var urlRequest = try buildRequest(
+                    path: "geo/1.0/direct",
+                    addQueryItems: {
+                        if let state = state {
+                            var formattedState = state.state
+                            formattedState.append(",")
+                            return [
+                                URLQueryItem(name: "q", value: "\(location.city),\(formattedState),\(location.countryCode)"),
+                                URLQueryItem(name: "limit", value: "5"),
+                                URLQueryItem(name: "appid", value: apiKey),
+                            ]
+                        } else {
+                            return [
+                                URLQueryItem(name: "q", value: "\(location.city),\(location.countryCode)"),
+                                URLQueryItem(name: "limit", value: "5"),
+                                URLQueryItem(name: "appid", value: apiKey),
+                            ]
+                        }
+                    })
                 let data = try await httpClient.makeRequest(urlRequest)
                 return try decoder.decode([SearchResult].self, from: data)
             })

@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import Foundation
 import SwiftUI
-
+import MapKit
 extension Search {
     struct View: SwiftUI.View {
         @Bindable var store: StoreOf<Search>
@@ -77,16 +77,86 @@ extension Search {
                     Divider()
                     List {
                         ForEach(store.searchResult, id: \.self) { location in
-                            Section {
-                                Text(location.name)
-                                Text("Latitude: \(location.lat)")
-                                Text("Longitude: \(location.lon)")
-                            }
-                            .listRowBackground(Color("BackgroundColor"))
+                            SearchResultItem(location: location)
+                            //                            Section {
+                            //                                Text(location.name)
+                            //                                Text("Latitude: \(location.lat)")
+                            //                                Text("Longitude: \(location.lon)")
+                            //                            }
+                                .listRowBackground(Color("BackgroundColor"))
                         }
                     }
                     .listRowBackground(Color("PrimaryColor"))
                     .scrollContentBackground(.hidden)
+                }
+            }
+        }
+    }
+}
+
+struct SearchResultItem: View {
+    let location: SearchResult
+    
+    var body: some View {
+        HStack {
+            VStack {
+                Spacer()
+                HStack {
+                    Text(location.name)
+                        .fontWeight(.heavy)
+                    Text("(\(location.country))")
+                    Spacer()
+                }
+                HStack {
+                    Text("Latitude: \(location.lat)")
+                        .font(.footnote)
+                    Text("Longitude: \(location.lon)")
+                        .font(.footnote)
+                }
+                .foregroundStyle(.white)
+                Spacer()
+                
+            }
+            .background(Color("BackgroundColor"))
+            
+            VStack {
+                MapView(coordinates: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
+                    .frame(width: 100, height: 100, alignment: .trailing)
+                
+                Button("Set Location") {
+                    print("Pressed")
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(Color("AccentColor"))
+            }
+        }
+    }
+    
+    struct MapView: View {
+        
+        var position: MapCameraPosition
+        var coordinates: CLLocationCoordinate2D
+        
+        public init(
+            coordinates: CLLocationCoordinate2D
+        ) {
+            self.coordinates = coordinates
+            self.position = .region(
+                .init(
+                    center: CLLocationCoordinate2D(latitude: coordinates.latitude, longitude: coordinates.longitude),
+                    span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001)
+                )
+            )
+        }
+        
+        var body: some View {
+            Map(initialPosition: position) {
+                Marker(coordinate: coordinates) {
+                    Image(systemName: "mappin.circle.fill")
+                        .foregroundColor(.red)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .shadow(radius: 10)
                 }
             }
         }
