@@ -2,6 +2,7 @@ import SwiftUI
 import Foundation
 
 struct CurrentWeatherView: View {
+    let location: Location
     let weather: Weather
     let units: TemperatureUnits
     let geo: GeometryProxy
@@ -10,7 +11,7 @@ struct CurrentWeatherView: View {
         VStack(alignment: .center) {
             HStack {
                 Spacer()
-                Text("City Name")
+                Text(location.city)
                     .fontWeight(.bold)
             }
             HStack {

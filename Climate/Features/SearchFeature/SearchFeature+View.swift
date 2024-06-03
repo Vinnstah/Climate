@@ -10,7 +10,7 @@ extension Search {
             VStack {
                 List {
                     Section {
-                        TextField(text: $store.locationInputs.city.sending(\.view.cityQueryChanged)) {
+                        TextField(text: $store.location.city.sending(\.view.cityQueryChanged)) {
                             Text("London, Stockholm, ...")
                                 .foregroundStyle(Color.accentColor)
                         }
@@ -23,7 +23,7 @@ extension Search {
                     .listRowBackground(Color.primaryColor)
                     
                     Section {
-                        TextField(text: $store.locationInputs.countryCode.sending(\.view.countryCodeQueryChanged)) {
+                        TextField(text: $store.location.countryCode.sending(\.view.countryCodeQueryChanged)) {
                             Text("Country Code...")
                                 .foregroundStyle(Color.accentColor)
                         }
@@ -38,9 +38,9 @@ extension Search {
                     }
                     .listRowBackground(Color.primaryColor)
                     
-                    if store.state.locationInputs.countryCode == "US" {
+                    if store.state.location.countryCode == "US" {
                         Section {
-                            TextField(text: $store.stateCode.state.sending(\.view.stateQueryChanged)) {
+                            TextField(text:  $store.location.stateCode.sending(\.view.stateQueryChanged)) {
                                 Text("NY, MA, CA...")
                                     .foregroundStyle(Color.accentColor)
                             }

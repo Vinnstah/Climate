@@ -7,8 +7,9 @@ struct AppCoordinator {
     
     @ObservableState
     struct State: Equatable {
-        @Presents var destination: Destination.State? 
-        @Shared var location: CLLocationCoordinate2D?
+        @Presents var destination: Destination.State?
+        @Shared(.inMemory("location")) var location: Location = .empty
+        @Shared(.inMemory("weather")) var weather: Weather = .mock
     }
     
     @Reducer(state: .equatable, action: .equatable)
@@ -18,7 +19,6 @@ struct AppCoordinator {
     }
     
     enum Action: Equatable, ViewAction {
-        
         @CasePathable
         public enum View: Equatable {
             case mainTapped
@@ -35,20 +35,19 @@ struct AppCoordinator {
             switch action {
                 
             case .view(.onAppear):
-                state.destination = .main(Main.State(weather: Shared(.mock)))
+                state.destination = .main(Main.State(weather: state.$weather, location: state.$location))
                 return .none
                 
             case .view(.mainTapped):
-                state.destination = .main(Main.State(weather: Shared(.mock)))
+                state.destination = .main(Main.State(weather: state.$weather, location: state.$location))
                 return .none
                 
             case .view(.searchTapped):
-                state.destination = .search(Search.State(location: state.location))
+                state.destination = .search(Search.State(location: state.$location))
                 return .none
                 
-            case let .destination(.presented(.search(.delegate(.setLocation(location))))):
-                state.location = location
-                state.destination = .main(Main.State(weather: Shared(.mock), location: state.location))
+            case .destination(.presented(.search(.delegate(.setLocation)))):
+                state.destination = .main(Main.State(weather: state.$weather, location: state.$location))
                 return .none
                 
             case .destination:

@@ -10,7 +10,7 @@ struct Main {
     @ObservableState
     struct State: Equatable {
         @Shared var weather: Weather
-        var location: CLLocationCoordinate2D?
+        @Shared var location: Location
         var units: TemperatureUnits = .metric
     }
     
@@ -41,13 +41,13 @@ struct Main {
             switch action {
                 
             case .view(.onAppear):
-                guard state.location != nil else {
+                guard state.location.location != nil else {
                     return .run { send in
                         await send(.location(.requestAuthorization(try locationClient.requestAuthorization())))
                     }
                 }
                 
-                return .run { [location = state.location!] send in
+                return .run { [location = state.location.location!] send in
                     await send(.weather(.getWeatherForCurrentLocation(
                         try await apiClient.currentWeatherData(
                             location,
@@ -66,7 +66,7 @@ struct Main {
                 return .none
                 
             case let .location(.getCurrentLocation(.success(location))):
-                state.location = location
+                state.location.location = location
                 return .run { [location] send in
                     await send(
                         .weather(

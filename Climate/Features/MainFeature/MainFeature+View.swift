@@ -8,7 +8,9 @@ extension Main {
         var body: some SwiftUI.View {
             GeometryReader { geo in
                 VStack(alignment: .leading) {
+                    
                     CurrentWeatherView(
+                        location: store.location,
                         weather: store.state.weather,
                         units: store.units,
                         geo: geo
