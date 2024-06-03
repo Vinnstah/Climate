@@ -15,7 +15,9 @@ struct Search {
         var requestInFlight: Bool
         
         func invalidInput() -> Bool {
-            guard (!locationInputs.city.isEmpty && !locationInputs.countryCode.isEmpty) else {
+            guard (
+                !locationInputs.city.isEmpty && !locationInputs.countryCode.isEmpty
+            ) else {
                 return true
             }
             
@@ -24,7 +26,9 @@ struct Search {
             }
             
             if locationInputs.countryCode == "US" {
-                guard !stateCode.state.isEmpty && stateCode.state.count == 2 else {
+                guard (
+                !stateCode.state.isEmpty && stateCode.state.count == 2
+                ) else {
                     return true
                 }
             }
@@ -42,18 +46,17 @@ struct Search {
     
     enum Action: Equatable, BindableAction {
         case binding(BindingAction<Search.State>)
-        case cityQueryChanged(String)
-        case countryCodeQueryChanged(String)
-        case stateQueryChanged(String)
         case view(View)
-        
         case delegate(DelegateAction)
-        
         case locationQueryResults([SearchResult])
         
+        @CasePathable
         enum View: Equatable {
             case getLocationsButtonTapped
             case setLocationButtonTapped(SearchResult)
+            case cityQueryChanged(String)
+            case countryCodeQueryChanged(String)
+            case stateQueryChanged(String)
         }
         
         enum DelegateAction: Equatable {
@@ -66,22 +69,27 @@ struct Search {
         
         Reduce { state, action in
             switch action {
-
                 
-            case let .cityQueryChanged(query):
+            case let .view(.cityQueryChanged(query)):
                 state.locationInputs.city = query
                 return .none
                 
-            case let .countryCodeQueryChanged(query):
+            case let .view(.countryCodeQueryChanged(query)):
                 state.locationInputs.countryCode = query
                 return .none
-            case let .stateQueryChanged(query):
+                
+            case let .view(.stateQueryChanged(query)):
                 state.stateCode.state = query
                 return .none
+                
             case .view(.getLocationsButtonTapped):
                 state.requestInFlight = true
                 return .run { [locationInputs = state.locationInputs, stateCode = state.stateCode] send in
-                    await send(.locationQueryResults(try await apiClient.coordinatesByLocation(locationInputs, stateCode)))
+                    await send(
+                        .locationQueryResults(
+                            try await apiClient.coordinatesByLocation(locationInputs, stateCode)
+                        )
+                    )
                 }
                 
             case let .locationQueryResults(result):
@@ -89,11 +97,14 @@ struct Search {
                 state.searchResult = result
                 return .none
                 
-            case let .view(.setLocationButtonTapped(location)):
-                let location = CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon)
+            case let .view(.setLocationButtonTapped(searchResult)):
+                let location = CLLocationCoordinate2D(
+                    latitude: searchResult.lat,
+                    longitude: searchResult.lon
+                )
                 state.location = location
-                return .run { [location = state.location ] send in
-                    await send(.delegate(.setLocation(location!)))
+                return .run { [location = state.location!] send in
+                    await send(.delegate(.setLocation(location)))
                 }
                 
             case .binding, .delegate:

@@ -6,7 +6,9 @@ extension AppCoordinator {
     struct View: SwiftUI.View {
         let store: StoreOf<AppCoordinator>
         
-        public init(store: StoreOf<AppCoordinator>) {
+        public init(
+            store: StoreOf<AppCoordinator>
+        ) {
             self.store = store
         }
         
@@ -28,7 +30,11 @@ extension AppCoordinator {
                         EmptyView()
                     }
                 }
-                .tabView(home: { store.send(.view(.mainTapped)) }, search: { store.send(.view(.searchTapped)) }, geo: geo)
+                .tabView(
+                    home: { store.send(.view(.mainTapped)) },
+                    search: { store.send(.view(.searchTapped)) },
+                    geo: geo
+                )
                 .animation(.default, value: store.state.destination)
                 .onAppear {
                     store.send(.view(.onAppear))

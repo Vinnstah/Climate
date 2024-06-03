@@ -37,7 +37,7 @@ struct AppCoordinator {
             case .view(.onAppear):
                 state.destination = .main(Main.State(weather: Shared(.mock)))
                 return .none
-           
+                
             case .view(.mainTapped):
                 state.destination = .main(Main.State(weather: Shared(.mock)))
                 return .none

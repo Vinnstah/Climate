@@ -17,7 +17,7 @@ struct CurrentWeatherView: View {
                 ZStack {
                     Circle()
                         .frame(width: geo.size.width/2)
-                        .foregroundStyle(Color("PrimaryColor"))
+                        .foregroundStyle(Color.primaryColor)
                     Image(weather.currentWeather.first?.icon ?? "01d")
                         .resizable()
                         .frame(width: geo.size.width/2.2, height: geo.size.width/2.2)
@@ -27,7 +27,7 @@ struct CurrentWeatherView: View {
                     Text("\(weather.temperature.temp.roundedNumberFormatted()) \(units.description)")
                         .font(.system(size: 55))
                         .fontWeight(.heavy)
-                        .foregroundStyle(Color("AccentColor"))
+                        .foregroundStyle(Color.accentColor)
                     Text("\(weather.currentWeather.first?.description.capitalized ?? "")")
                         .font(.title3)
                 }
@@ -46,37 +46,37 @@ struct DetailView: View {
     
     var body: some View {
         ZStack {
-                Capsule()
-                    .foregroundStyle(Color("PrimaryColor"))
-                    .frame(width: geo.size.width*0.9, height: geo.size.height*0.15)
-                HStack {
-                    VStack {
-                        Text("Wind")
-                            .fontWeight(.bold)
-                            .font(.title3)
-                        Text("\(weather.wind.speed.roundedNumberFormatted()) km/h")
-                    }
-                    Divider()
-                        .frame(width: 2, height: geo.size.height*0.1)
-                        .overlay(Color("BackgroundColor"))
-                    VStack {
-                        Text("Feels like")
-                            .fontWeight(.bold)
-                            .font(.title3)
-                        Text("\(weather.temperature.feelsLike.roundedNumberFormatted())")
-                    }
-                    Divider()
-                        .frame(width: 2, height: geo.size.height*0.1)
-                        .overlay(Color("BackgroundColor"))
-                    VStack {
-                        Text("Humidity")
-                            .fontWeight(.bold)
-                            .font(.title3)
-                        Text("\(weather.temperature.humidity)%")
-                    }
+            Capsule()
+                .foregroundStyle(Color.primaryColor)
+                .frame(width: geo.size.width*0.9, height: geo.size.height*0.15)
+            HStack {
+                VStack {
+                    Text("Wind")
+                        .fontWeight(.bold)
+                        .font(.title3)
+                    Text("\(weather.wind.speed.roundedNumberFormatted()) km/h")
                 }
-                .foregroundStyle(.white)
+                Divider()
+                    .frame(width: 2, height: geo.size.height*0.1)
+                    .overlay(Color.backgroundColor)
+                VStack {
+                    Text("Feels like")
+                        .fontWeight(.bold)
+                        .font(.title3)
+                    Text("\(weather.temperature.feelsLike.roundedNumberFormatted())")
+                }
+                Divider()
+                    .frame(width: 2, height: geo.size.height*0.1)
+                    .overlay(Color.backgroundColor)
+                VStack {
+                    Text("Humidity")
+                        .fontWeight(.bold)
+                        .font(.title3)
+                    Text("\(weather.temperature.humidity)%")
+                }
             }
+            .foregroundStyle(.white)
+        }
     }
 }
 
@@ -89,13 +89,13 @@ struct ForecastView: View {
             HStack {
                 Rectangle()
                     .clipShape(.capsule)
-                    .foregroundStyle(Color("PrimaryColor"))
+                    .foregroundStyle(Color.primaryColor)
                 Rectangle()
                     .clipShape(.capsule)
-                    .foregroundStyle(Color("PrimaryColor"))
+                    .foregroundStyle(Color.primaryColor)
                 Rectangle()
                     .clipShape(.capsule)
-                    .foregroundStyle(Color("PrimaryColor"))
+                    .foregroundStyle(Color.primaryColor)
             }
             Spacer()
         }

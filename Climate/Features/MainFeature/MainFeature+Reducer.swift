@@ -68,10 +68,13 @@ struct Main {
             case let .location(.getCurrentLocation(.success(location))):
                 state.location = location
                 return .run { [location] send in
-                    await send(.weather(.getWeatherForCurrentLocation(try await apiClient.currentWeatherData(
-                        location,
-                        TemperatureUnits.metric
-                    )))
+                    await send(
+                        .weather(
+                            .getWeatherForCurrentLocation(
+                                try await apiClient.currentWeatherData(
+                                    location,
+                                    TemperatureUnits.metric
+                                )))
                     )
                 }
                 

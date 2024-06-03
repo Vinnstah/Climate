@@ -9,11 +9,10 @@ extension Search {
         var body: some SwiftUI.View {
             VStack {
                 List {
-                    
                     Section {
-                        TextField(text: $store.locationInputs.city.sending(\.cityQueryChanged)) {
+                        TextField(text: $store.locationInputs.city.sending(\.view.cityQueryChanged)) {
                             Text("London, Stockholm, ...")
-                                .foregroundStyle(Color("AccentColor"))
+                                .foregroundStyle(Color.accentColor)
                         }
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
@@ -21,12 +20,12 @@ extension Search {
                         Text("Location")
                             .foregroundStyle(.white)
                     }
-                    .listRowBackground(Color("PrimaryColor"))
+                    .listRowBackground(Color.primaryColor)
                     
                     Section {
-                        TextField(text: $store.locationInputs.countryCode.sending(\.countryCodeQueryChanged)) {
+                        TextField(text: $store.locationInputs.countryCode.sending(\.view.countryCodeQueryChanged)) {
                             Text("Country Code...")
-                                .foregroundStyle(Color("AccentColor"))
+                                .foregroundStyle(Color.accentColor)
                         }
                         .autocapitalization(.allCharacters)
                         .disableAutocorrection(true)
@@ -37,15 +36,14 @@ extension Search {
                         Text("ISO 3801, 2- or 3- character codes only")
                             .foregroundStyle(.white)
                     }
-                    .listRowBackground(Color("PrimaryColor"))
+                    .listRowBackground(Color.primaryColor)
                     
                     if store.state.locationInputs.countryCode == "US" {
                         Section {
-                            TextField(text: $store.stateCode.state.sending(\.stateQueryChanged)) {
+                            TextField(text: $store.stateCode.state.sending(\.view.stateQueryChanged)) {
                                 Text("NY, MA, CA...")
-                                    .foregroundStyle(Color("AccentColor"))
+                                    .foregroundStyle(Color.accentColor)
                             }
-                            
                             .autocapitalization(.allCharacters)
                             .disableAutocorrection(true)
                         }
@@ -56,7 +54,7 @@ extension Search {
                         Text("2-letter State Code, applicable for US only.")
                             .foregroundStyle(.white)
                     }
-                    .listRowBackground(Color("PrimaryColor"))
+                    .listRowBackground(Color.primaryColor)
                     }
                     
                     HStack {
@@ -65,67 +63,18 @@ extension Search {
                             store.send(.view(.getLocationsButtonTapped))
                         }
                         .buttonStyle(.borderedProminent)
-                        .tint(Color("AccentColor"))
+                        .tint(Color.accentColor)
                         .disabled(store.state.invalidInput() || store.state.requestInFlight)
                     }
-                    .listRowBackground(Color("BackgroundColor"))
+                    .listRowBackground(Color.backgroundColor)
                 }
                 .scrollContentBackground(.hidden)
                 
-                if store.searchResult != [] {
-                    Divider()
-                    List {
-                        ForEach(store.searchResult, id: \.self) { location in
-                            SearchResultItem(location: location) {
-                                store.send(.view(.setLocationButtonTapped(location)))
-                            }
-                                .listRowBackground(Color("BackgroundColor"))
-                        }
+                if !store.searchResult.isEmpty {
+                    SearchResultView(searchResult: store.state.searchResult) { searchResult in
+                        store.send(.view(.setLocationButtonTapped(searchResult)))
                     }
-                    .listRowBackground(Color("PrimaryColor"))
-                    .scrollContentBackground(.hidden)
                 }
-            }
-        }
-    }
-}
-
-struct SearchResultItem: View {
-    let location: SearchResult
-    let setLocationAction: () -> ()
-    
-    var body: some View {
-        HStack {
-            VStack {
-                Spacer()
-                HStack {
-                    Text(location.name)
-                        .fontWeight(.heavy)
-                    Text("(\(location.country))")
-                    Spacer()
-                }
-                HStack {
-                    Text("Latitude: \(location.lat)")
-                        .font(.footnote)
-                    Text("Longitude: \(location.lon)")
-                        .font(.footnote)
-                }
-                .foregroundStyle(.white)
-                Spacer()
-                
-            }
-            .background(Color("BackgroundColor"))
-            
-            VStack {
-                MapView(coordinates: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
-                    .frame(width: 100, height: 100, alignment: .trailing)
-                
-                Button("Set Location") {
-                    setLocationAction()
-                    print("Pressed")
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(Color("AccentColor"))
             }
         }
     }

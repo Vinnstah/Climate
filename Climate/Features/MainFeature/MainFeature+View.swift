@@ -17,7 +17,7 @@ extension Main {
                     ForecastView()
                 }
             }
-            .background(Color("BackgroundColor").ignoresSafeArea())
+            .background(Color.backgroundColor.ignoresSafeArea())
             .onAppear {
                 store.send(.view(.onAppear))
             }

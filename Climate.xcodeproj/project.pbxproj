@@ -30,6 +30,7 @@
 		E585535E2C0881ED001B1B1C /* LocationClient+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = E585535D2C0881ED001B1B1C /* LocationClient+Live.swift */; };
 		E58553612C08AB47001B1B1C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553602C08AB47001B1B1C /* LocationManager.swift */; };
 		E58553632C08AC38001B1B1C /* LocationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58553622C08AC38001B1B1C /* LocationError.swift */; };
+		E588D1502C0E3DF6003C8C1F /* SearchFeature+SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E588D14F2C0E3DF6003C8C1F /* SearchFeature+SearchResultView.swift */; };
 		E58A099B2C0DF6E3007C4288 /* SearchFeature+MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58A099A2C0DF6E3007C4288 /* SearchFeature+MapView.swift */; };
 		E58AB9332C0A57E500D3D974 /* ViewFragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58AB9322C0A57E500D3D974 /* ViewFragments.swift */; };
 		E59F71022C08FECD001F0263 /* ApiClient+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59F71012C08FECD001F0263 /* ApiClient+Interface.swift */; };
@@ -81,6 +82,7 @@
 		E585535D2C0881ED001B1B1C /* LocationClient+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationClient+Live.swift"; sourceTree = "<group>"; };
 		E58553602C08AB47001B1B1C /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E58553622C08AC38001B1B1C /* LocationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationError.swift; sourceTree = "<group>"; };
+		E588D14F2C0E3DF6003C8C1F /* SearchFeature+SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchFeature+SearchResultView.swift"; sourceTree = "<group>"; };
 		E58A099A2C0DF6E3007C4288 /* SearchFeature+MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchFeature+MapView.swift"; sourceTree = "<group>"; };
 		E58AB9322C0A57E500D3D974 /* ViewFragments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFragments.swift; sourceTree = "<group>"; };
 		E59F71012C08FECD001F0263 /* ApiClient+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ApiClient+Interface.swift"; sourceTree = "<group>"; };
@@ -220,18 +222,18 @@
 			children = (
 				E58553552C086B36001B1B1C /* AppCoordinator */,
 				E58553522C07D59E001B1B1C /* SearchFeature */,
-				E585534F2C07CD6B001B1B1C /* Extensions */,
+				E585534F2C07CD6B001B1B1C /* TabView */,
 				E5625FC42C073EFF00EE1AD5 /* MainFeature */,
 			);
 			path = Features;
 			sourceTree = "<group>";
 		};
-		E585534F2C07CD6B001B1B1C /* Extensions */ = {
+		E585534F2C07CD6B001B1B1C /* TabView */ = {
 			isa = PBXGroup;
 			children = (
 				E58553502C07CD81001B1B1C /* TabView.swift */,
 			);
-			path = Extensions;
+			path = TabView;
 			sourceTree = "<group>";
 		};
 		E58553522C07D59E001B1B1C /* SearchFeature */ = {
@@ -239,6 +241,7 @@
 			children = (
 				E58553532C07D5A9001B1B1C /* SearchFeature+Reducer.swift */,
 				E530D8862C0C6EF500AF8872 /* SearchFeature+View.swift */,
+				E588D14F2C0E3DF6003C8C1F /* SearchFeature+SearchResultView.swift */,
 				E58A099A2C0DF6E3007C4288 /* SearchFeature+MapView.swift */,
 			);
 			path = SearchFeature;
@@ -418,6 +421,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E588D1502C0E3DF6003C8C1F /* SearchFeature+SearchResultView.swift in Sources */,
 				E58553572C086B40001B1B1C /* AppCoordinator+Reducer.swift in Sources */,
 				E59F71072C090179001F0263 /* Weather.swift in Sources */,
 				E58553592C087A66001B1B1C /* AppCoordinator+View.swift in Sources */,

@@ -14,3 +14,17 @@ extension CLLocationCoordinate2D: Equatable {
         (lhs.latitude, lhs.longitude) == (rhs.latitude, rhs.longitude)
     }
 }
+
+extension Color {
+    public static let primaryColor: Self = {
+        Color("PrimaryColor")
+    }()
+    
+    public static let backgroundColor: Self = {
+        Color("BackgroundColor")
+    }()
+    
+    public static let accentColor: Self = {
+        Color("AccentColor")
+    }()
+}

@@ -12,9 +12,7 @@ public struct Weather: Decodable, Equatable {
         case coordinates = "coord"
         case temperature = "main"
         case currentWeather = "weather"
-        case wind
-        case rain
-        case clouds
+        case wind, rain, clouds
     }
     
     public struct Coordinates: Equatable, Codable {
@@ -35,8 +33,7 @@ public struct Weather: Decodable, Equatable {
             case feelsLike = "feels_like"
             case minTemp = "temp_min"
             case maxTemp = "temp_max"
-            case pressure
-            case humidity
+            case pressure, humidity
         }
     }
     
@@ -47,10 +44,8 @@ public struct Weather: Decodable, Equatable {
         let icon: String
         
         public enum CodingKeys: String, CodingKey {
-            case id
+            case id, icon, description
             case condition = "main"
-            case description
-            case icon
         }
     }
     

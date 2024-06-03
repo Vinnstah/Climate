@@ -33,7 +33,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
             
         @unknown default:
             throw LocationError.locationServiceDisabled
-        
+            
         }
     }
     
