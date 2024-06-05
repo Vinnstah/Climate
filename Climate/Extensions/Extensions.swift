@@ -41,17 +41,3 @@ extension URL {
         URL(string: "https://api.openweathermap.org/")!
     }()
 }
-
-//extension CLLocationCoordinate2D: Decodable {
-//    public enum CodingKeys: CodingKey {
-//        case latitude, longitude
-//    }
-//    public init(from decoder: Decoder) throws {
-//        let values = try decoder.container(keyedBy: CodingKeys.self)
-//        
-//        self.init()
-//        
-//        latitude = try values.decode(Double.self, forKey: .latitude)
-//        longitude = try values.decode(Double.self, forKey: .longitude)
-//    }
-//}

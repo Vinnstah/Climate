@@ -16,7 +16,11 @@ extension Main {
                         geo: geo
                     )
                     
-                    ForecastView()
+                    ForecastView(
+                        forecasts: store.state.forecast, 
+                        unit: store.units,
+                        geo: geo
+                    )
                 }
             }
             .background(Color.backgroundColor.ignoresSafeArea())

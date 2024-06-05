@@ -16,26 +16,26 @@ struct Search {
         var city: String = ""
         
         
-        //        func invalidInput() -> Bool {
-        //            guard (
-        //                !location.city.isEmpty && !location.countryCode.isEmpty
-        //            ) else {
-        //                return true
-        //            }
-        //
-        //            guard location.countryCode.count < 3 else {
-        //                return true
-        //            }
-        //
-        //            if location.countryCode == "US" {
-        //                guard (
-        //                    !location.state .stateCode.isEmpty && location.stateCode.count == 2
-        //                ) else {
-        //                    return true
-        //                }
-        //            }
-        //            return false
-        //        }
+        func invalidInput() -> Bool {
+            guard (
+                !city.isEmpty && !countryCode.isEmpty
+            ) else {
+                return true
+            }
+            
+            guard countryCode.count < 3 else {
+                return true
+            }
+            
+            if countryCode == "US" {
+                guard (
+                    !stateCode.isEmpty && stateCode.count == 2
+                ) else {
+                    return true
+                }
+            }
+            return false
+        }
     }
     
     enum Action: Equatable, BindableAction, Sendable {

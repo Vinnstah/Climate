@@ -64,7 +64,7 @@ extension Search {
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(Color.accentColor)
-//                        .disabled(store.state.invalidInput() || store.state.requestInFlight)
+                        .disabled(store.state.invalidInput() || store.state.requestInFlight)
                     }
                     .listRowBackground(Color.backgroundColor)
                 }

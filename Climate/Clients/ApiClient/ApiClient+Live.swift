@@ -79,7 +79,7 @@ extension ApiClient {
                 let data = try await httpClient.makeRequest(urlRequest)
                 return try decoder.decode([Location].self, from: data)
             },
-            fiveDayForecast: { location in
+            fiveDayForecast: { request in
                 guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
                     throw ApiError.missingApiKey
                 }
@@ -89,13 +89,14 @@ extension ApiClient {
                         return [
                             URLQueryItem(
                                 name: "lat",
-                                value: location.coordinates.latitude.description
+                                value: request.latitude.description
                             ),
                             URLQueryItem(
                                 name: "lon",
-                                value: location.coordinates.longitude.description
+                                value: request.longitude.description
                             ),
                             URLQueryItem(name: "appid", value: apiKey),
+                            URLQueryItem(name: "units", value: request.units.rawValue),
                         ]
                     })
                 

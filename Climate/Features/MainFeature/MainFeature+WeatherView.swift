@@ -82,21 +82,50 @@ struct DetailView: View {
 }
 
 struct ForecastView: View {
-    let forecast: [String] = []
+    let forecasts: Forecast?
+    let unit: TemperatureUnits
+    let geo: GeometryProxy
     
     var body: some View {
         VStack {
             Text("Forecasts")
-            HStack {
-                Rectangle()
-                    .clipShape(.capsule)
-                    .foregroundStyle(Color.primaryColor)
-                Rectangle()
-                    .clipShape(.capsule)
-                    .foregroundStyle(Color.primaryColor)
-                Rectangle()
-                    .clipShape(.capsule)
-                    .foregroundStyle(Color.primaryColor)
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(forecasts?.list ?? [], id: \.self.dt) { forecast in
+                        ZStack {
+                            Rectangle()
+                                .clipShape(.capsule)
+                                .foregroundStyle(Color.primaryColor)
+                            VStack {
+                                ZStack {
+                                    Circle()
+                                        .frame(width: geo.size.width/5)
+                                        .foregroundStyle(Color.primaryColor)
+                                    Image(forecast.weather?.first!.icon ?? "01d")
+                                        .resizable()
+                                        .aspectRatio(1, contentMode: .fit)
+                                        .frame(width: geo.size.width/5)
+                                }
+                                Spacer()
+                                Text(forecast.main?.temp?.roundedNumberFormatted() ?? "" + "\(unit.description)")
+                                    .font(.system(size: 22))
+                                    .fontWeight(.heavy)
+                                    .foregroundStyle(Color.accentColor)
+                                
+//                                    .font(.system(size: 12))
+//                                    .fontWeight(.bold)
+//                                    .foregroundStyle(Color.accentColor)
+                                
+//                                    .font(.system(size: 8))
+//                                    .fontWeight(.footnote)
+//                                    .foregroundStyle(Color.accentColor)
+                                
+                            }
+                            .padding(10)
+                        }
+                        .frame(width: geo.size.width/5)
+                    }
+                }
             }
             Spacer()
         }

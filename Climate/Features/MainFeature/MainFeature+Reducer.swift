@@ -12,6 +12,8 @@ struct Main {
         var weather: WeatherAtLocation
         var location: GeoLocation
         var units: TemperatureUnits = .metric
+        var forecast: Forecast? = nil
+        var alert: AlertState<Alert>
     }
     
     enum Action: Equatable, ViewAction, Sendable {
@@ -27,6 +29,7 @@ struct Main {
         
         public enum WeatherAction: Equatable, Sendable {
             case getWeatherForCurrentLocation(WeatherAtLocation)
+            case getForecastForCurrentLocation(Forecast)
         }
         
         case weather(WeatherAction)
@@ -82,10 +85,20 @@ struct Main {
                 
             case let .weather(.getWeatherForCurrentLocation(weather)):
                 state.weather = weather
+                return .run { [location = state.location, units = state.units] send in
+                    
+                     let result = try await weatherClient.fiveDayForecast(
+                            ForecastRequest(
+                                latitude: location.coordinates.latitude,
+                                longitude: location.coordinates.longitude,
+                                units: units
+                            )
+                        )
+                    await send(.weather(.getForecastForCurrentLocation(result)))
+                }
+            case let .weather(.getForecastForCurrentLocation(forecast)):
+                state.forecast = forecast
                 return .none
-//                return .run { [location = state.location] send in
-//                    print(try await weatherClient.fiveDayForecast(location))
-//                }
             }
         }
     }

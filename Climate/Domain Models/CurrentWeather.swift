@@ -3,7 +3,7 @@ import CoreLocation
 
 public typealias LocationCoordinates2D = CLLocationCoordinate2D
 
-public enum TemperatureUnits: String {
+public enum TemperatureUnits: String, Sendable {
     case metric
     case imperial
     

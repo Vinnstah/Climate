@@ -12,11 +12,11 @@ extension WeatherClient {
                 return WeatherAtLocation(weather: weather, location: request.location)
             },
             locationsfromPostalAddress: { address in
-                return try await apiClient.coordinatesByLocationName(PostalAddressRequest(address: address))
+                try await apiClient.coordinatesByLocationName(PostalAddressRequest(address: address))
                     .map( { GeoLocation(location: $0) })
             },
-            fiveDayForecast: { location in
-                try await apiClient.fiveDayForecast(location)
+            fiveDayForecast: { request in
+                try await apiClient.fiveDayForecast(request)
             })
     }()
 }

@@ -8,7 +8,7 @@ public struct ApiClient: Sendable, DependencyKey {
     
     public typealias CurrentWeatherAt = @Sendable (CurrentWeatherRequest) async throws -> Weather
     public typealias CoordinatesByLocationName = @Sendable (PostalAddressRequest) async throws -> [Location]
-    public typealias FiveDayForecast = @Sendable (GeoLocation) async throws -> Forecast
+    public typealias FiveDayForecast = @Sendable (ForecastRequest) async throws -> Forecast
     
     public var currentWeatherAt: CurrentWeatherAt
     public var coordinatesByLocationName: CoordinatesByLocationName

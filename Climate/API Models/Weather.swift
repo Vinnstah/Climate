@@ -15,7 +15,7 @@ public struct Weather: Codable, Equatable, Sendable {
         case currentWeather = "weather"
         case wind, rain, clouds
     }
-
+    
     public struct Temperature: Codable, Equatable, Sendable {
         let temp: Double
         let feelsLike: Double
@@ -31,7 +31,7 @@ public struct Weather: Codable, Equatable, Sendable {
             case temp, pressure, humidity
         }
     }
-
+    
     public struct CurrentWeather: Codable, Equatable, Sendable {
         let id: UInt16
         let condition: String
