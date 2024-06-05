@@ -26,10 +26,11 @@ extension LocationClient {
     }()
 }
 
+extension LocationManager: @unchecked Sendable  {}
 
 extension LocationClient: TestDependencyKey {
     public static let testValue = Self(
-        getCurrentLocation: unimplemented("LocationClient.getCurrentLocation"), 
+        getCurrentLocation: unimplemented("LocationClient.getCurrentLocation"),
         requestAuthorization: unimplemented("LocationClient.requestAuthorization"))
 }
 

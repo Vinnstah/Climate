@@ -58,7 +58,6 @@ struct SearchResultItem: View {
                 
                 Button("Set Location") {
                     setLocationAction()
-                    print("Pressed")
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(Color.accentColor)

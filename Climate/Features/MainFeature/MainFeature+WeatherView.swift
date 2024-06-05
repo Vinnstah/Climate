@@ -88,7 +88,10 @@ struct ForecastView: View {
     
     var body: some View {
         VStack {
-            Text("Forecasts")
+            Text("Forecast")
+                .font(.system(size: 24))
+                .fontWeight(.heavy)
+                .foregroundStyle(Color.accentColor)
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(forecasts?.list ?? [], id: \.self.dt) { forecast in
@@ -106,29 +109,27 @@ struct ForecastView: View {
                                         .aspectRatio(1, contentMode: .fit)
                                         .frame(width: geo.size.width/5)
                                 }
+                                HStack {
+                                    Text(forecast.main?.temp?.roundedNumberFormatted() ?? "")
+                                        .font(.system(size: 20))
+                                        .fontWeight(.heavy)
+                                        .foregroundStyle(Color.accentColor)
+                                    Text("\(unit.description)")
+                                        .font(.system(size: 20))
+                                        .fontWeight(.heavy)
+                                        .foregroundStyle(Color.accentColor)
+                                }
                                 Spacer()
-                                Text(forecast.main?.temp?.roundedNumberFormatted() ?? "" + "\(unit.description)")
-                                    .font(.system(size: 22))
-                                    .fontWeight(.heavy)
-                                    .foregroundStyle(Color.accentColor)
-                                
-//                                    .font(.system(size: 12))
-//                                    .fontWeight(.bold)
-//                                    .foregroundStyle(Color.accentColor)
-                                
-//                                    .font(.system(size: 8))
-//                                    .fontWeight(.footnote)
-//                                    .foregroundStyle(Color.accentColor)
-                                
                             }
-                            .padding(10)
                         }
                         .frame(width: geo.size.width/5)
                     }
+                    .padding(2)
                 }
             }
             Spacer()
         }
+        .frame(height: geo.size.height/3)
         .padding(15)
     }
 }

@@ -8,15 +8,25 @@ extension WeatherClient {
         
         return .init(
             currentWeatherAt: { request in
-                let weather = try await apiClient.currentWeatherAt(request)
-                return WeatherAtLocation(weather: weather, location: request.location)
+                do {
+                    let weather = try await apiClient.currentWeatherAt(request)
+                    return WeatherAtLocation(weather: weather, location: request.location)
+                } catch ApiError.missingApiKey {
+                    return WeatherAtLocation.preview
+                }
             },
             locationsfromPostalAddress: { address in
                 try await apiClient.coordinatesByLocationName(PostalAddressRequest(address: address))
                     .map( { GeoLocation(location: $0) })
             },
             fiveDayForecast: { request in
-                try await apiClient.fiveDayForecast(request)
+                do {
+                    let forecast = try await apiClient.fiveDayForecast(request)
+                    return forecast
+                } catch ApiError.missingApiKey {
+                    return Forecast.preview
+                }
+                
             })
     }()
 }

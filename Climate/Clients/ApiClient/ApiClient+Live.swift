@@ -75,7 +75,6 @@ extension ApiClient {
                             URLQueryItem(name: "appid", value: apiKey),
                         ]
                     })
-                print(urlRequest)
                 let data = try await httpClient.makeRequest(urlRequest)
                 return try decoder.decode([Location].self, from: data)
             },
@@ -121,6 +120,6 @@ extension DependencyValues {
     }
 }
 
-enum ApiError: Error {
+public enum ApiError: Error {
     case missingApiKey
 }

@@ -8,6 +8,9 @@ extension Main {
         var body: some SwiftUI.View {
             GeometryReader { geo in
                 VStack(alignment: .leading) {
+                    if store.weather.postalAddress.city == "Preview" {
+                        MockedDataDisclaimerBanner()
+                    }
                     
                     CurrentWeatherView(
                         location: store.location,
@@ -30,4 +33,16 @@ extension Main {
             }
         }
     }
+}
+
+public struct MockedDataDisclaimerBanner: View {
+    public var body: some View {
+        Text("Using **Mocked** data since no API_KEY present")
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(4)
+            .background(Color.accentColor)
+            .font(.system(size: 12))
+    }
+
+    public init() {}
 }

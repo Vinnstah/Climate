@@ -30,7 +30,7 @@ public struct ForecastWeather: Codable, Equatable, Sendable {
     public let rain: Rain?
     public let sys: Sys?
     public let dtTxt: String?
-
+    
     public enum CodingKeys: String, CodingKey {
         case dt, main, weather, clouds, wind, visibility, pop, rain, sys
         case dtTxt = "dt_txt"
@@ -45,7 +45,7 @@ public struct Temp: Codable, Equatable, Sendable {
     public let temp, feelsLike, tempMin, tempMax: Double?
     public let pressure, seaLevel, grndLevel, humidity: Int?
     public let tempKf: Double?
-
+    
     public enum CodingKeys: String, CodingKey {
         case temp
         case feelsLike = "feels_like"
@@ -61,7 +61,7 @@ public struct Temp: Codable, Equatable, Sendable {
 
 public struct Rain: Codable, Equatable, Sendable {
     public let the3H: Double?
-
+    
     public enum CodingKeys: String, CodingKey {
         case the3H = "3h"
     }
@@ -69,7 +69,7 @@ public struct Rain: Codable, Equatable, Sendable {
 
 public struct Sys: Codable, Equatable, Sendable {
     public let pod: String?
-
+    
     public init(pod: String?) {
         self.pod = pod
     }
@@ -78,11 +78,157 @@ public struct Sys: Codable, Equatable, Sendable {
 public struct WeatherForecast: Codable, Equatable, Sendable {
     public let id: Int?
     public let main, description, icon: String?
-
+    
 }
 
 public struct Wind: Codable, Equatable, Sendable {
     public let speed: Double?
     public let deg: Int?
     public let gust: Double?
+}
+
+extension Forecast {
+    public static let preview: Self = {
+        Self.init(
+            cod: "123",
+            message: nil,
+            cnt: nil,
+            list: [.init(
+                dt: 123,
+                main: .init(
+                    temp: 26,
+                    feelsLike: 22,
+                    tempMin: 21,
+                    tempMax: 26,
+                    pressure: 12,
+                    seaLevel: 123,
+                    grndLevel: 123,
+                    humidity: 22,
+                    tempKf: 22
+                ),
+                weather: [.init(
+                    id: 123,
+                    main: "",
+                    description: "Sun",
+                    icon: "01d"
+                )],
+                clouds: nil,
+                wind: nil,
+                visibility: 12,
+                pop: nil,
+                rain: nil,
+                sys: nil,
+                dtTxt: "2"
+            ),
+                   .init(
+                    dt: 2345,
+                    main: .init(
+                        temp: 21,
+                        feelsLike: 22,
+                        tempMin: 21,
+                        tempMax: 26,
+                        pressure: 12,
+                        seaLevel: 123,
+                        grndLevel: 123,
+                        humidity: 22,
+                        tempKf: 22
+                    ),
+                    weather: [.init(
+                        id: 123,
+                        main: "",
+                        description: "Sun",
+                        icon: "01d"
+                    )],
+                    clouds: nil,
+                    wind: nil,
+                    visibility: 12,
+                    pop: nil,
+                    rain: nil,
+                    sys: nil,
+                    dtTxt: "2"
+                   ),
+                   .init(
+                    dt: 521521,
+                    main: .init(
+                        temp: 28,
+                        feelsLike: 22,
+                        tempMin: 21,
+                        tempMax: 26,
+                        pressure: 12,
+                        seaLevel: 123,
+                        grndLevel: 123,
+                        humidity: 22,
+                        tempKf: 22
+                    ),
+                    weather: [.init(
+                        id: 123,
+                        main: "",
+                        description: "Sun",
+                        icon: "01d"
+                    )],
+                    clouds: nil,
+                    wind: nil,
+                    visibility: 12,
+                    pop: nil,
+                    rain: nil,
+                    sys: nil,
+                    dtTxt: "2"
+                   ),
+                   .init(
+                    dt: 5215212,
+                    main: .init(
+                        temp: 24,
+                        feelsLike: 22,
+                        tempMin: 21,
+                        tempMax: 26,
+                        pressure: 12,
+                        seaLevel: 123,
+                        grndLevel: 123,
+                        humidity: 22,
+                        tempKf: 22
+                    ),
+                    weather: [.init(
+                        id: 123,
+                        main: "",
+                        description: "Sun",
+                        icon: "01d"
+                    )],
+                    clouds: nil,
+                    wind: nil,
+                    visibility: 12,
+                    pop: nil,
+                    rain: nil,
+                    sys: nil,
+                    dtTxt: "2"
+                   ),
+                   .init(
+                    dt: 5221521,
+                    main: .init(
+                        temp: 12,
+                        feelsLike: 22,
+                        tempMin: 21,
+                        tempMax: 26,
+                        pressure: 12,
+                        seaLevel: 123,
+                        grndLevel: 123,
+                        humidity: 22,
+                        tempKf: 22
+                    ),
+                    weather: [.init(
+                        id: 123,
+                        main: "",
+                        description: "Sun",
+                        icon: "01d"
+                    )],
+                    clouds: nil,
+                    wind: nil,
+                    visibility: 12,
+                    pop: nil,
+                    rain: nil,
+                    sys: nil,
+                    dtTxt: "2"
+                   )],
+            city: nil
+        )
+    }()
 }

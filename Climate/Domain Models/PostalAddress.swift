@@ -28,7 +28,7 @@ public struct PostalAddress: Hashable, Sendable {
     }
     
     public static let preview: Self = {
-        Self.init(countryCode: "SE", city: "Stockholm", stateCode: nil)
+        Self.init(countryCode: "SE", city: "Preview", stateCode: nil)
     }()
 }
 

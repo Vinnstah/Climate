@@ -38,7 +38,6 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        // TODO: Handle errors
         try? checkLocationAuthorization()
     }
     
