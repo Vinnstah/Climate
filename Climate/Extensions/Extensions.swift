@@ -36,6 +36,12 @@ extension CLLocationCoordinate2D: Hashable {
     }
 }
 
+extension URL {
+    static let openWeather: Self = {
+        URL(string: "https://api.openweathermap.org/")!
+    }()
+}
+
 //extension CLLocationCoordinate2D: Decodable {
 //    public enum CodingKeys: CodingKey {
 //        case latitude, longitude

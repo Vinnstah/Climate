@@ -5,7 +5,7 @@ import CoreLocation
 @main
 struct ClimateApp: App {
     
-    let store = Store(initialState: AppCoordinator.State()) {
+    let store = Store(initialState: AppCoordinator.State(location: Shared(.empty), weather: Shared(.empty))) {
         AppCoordinator()
             ._printChanges()
     }

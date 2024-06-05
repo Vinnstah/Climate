@@ -4,52 +4,52 @@ import CoreLocation
 
 @Reducer
 struct Search {
-    @Dependency(\.apiClient) var apiClient
+    @Dependency(\.weatherClient) var weatherClient
     
     @ObservableState
     struct State: Equatable {
-        @Shared var location: Location
-        var locations: [Location]
-        var requestInFlight: Bool
+        var location: GeoLocation
+        var locations: [GeoLocation] = []
+        var requestInFlight: Bool = false
         
-        func invalidInput() -> Bool {
-            guard (
-                !location.address.city.isEmpty && !location.address.countryCode.isEmpty
-            ) else {
-                return true
-            }
-            
-            guard location.address.countryCode.count < 3 else {
-                return true
-            }
-            
-            if location.address.countryCode == "US" {
-                guard (
-                    !location.address.stateCode.isEmpty && location.address.stateCode.count == 2
-                ) else {
-                    return true
-                }
-            }
-            return false
-        }
+//        func invalidInput() -> Bool {
+//            guard (
+//                !location.city.isEmpty && !location.countryCode.isEmpty
+//            ) else {
+//                return true
+//            }
+//            
+//            guard location.countryCode.count < 3 else {
+//                return true
+//            }
+//            
+//            if location.countryCode == "US" {
+//                guard (
+//                    !location.state .stateCode.isEmpty && location.stateCode.count == 2
+//                ) else {
+//                    return true
+//                }
+//            }
+//            return false
+//        }
         
-        public init(location: Shared<Location>) {
-            self.locations = []
-            self.requestInFlight = false
-            self._location = location
-        }
+//        public init(location: Shared<Location>) {
+//            self.locations = []
+//            self.requestInFlight = false
+//            self._location = location
+//        }
     }
     
-    enum Action: Equatable, BindableAction {
+    enum Action: Equatable, BindableAction, Sendable {
         case binding(BindingAction<Search.State>)
         case view(View)
         case delegate(DelegateAction)
-        case locationQueryResults([Location])
+        case locationQueryResults([GeoLocation])
         
         @CasePathable
         enum View: Equatable {
             case getLocationsButtonTapped
-            case setLocationButtonTapped(Location)
+            case setLocationButtonTapped(GeoLocation)
             case cityQueryChanged(String)
             case countryCodeQueryChanged(String)
             case stateQueryChanged(String)
@@ -67,23 +67,23 @@ struct Search {
             switch action {
                 
             case let .view(.cityQueryChanged(query)):
-                state.location.address.city = query
+                state.location.city = query
                 return .none
                 
             case let .view(.countryCodeQueryChanged(query)):
-                state.location.address.countryCode = query
+                state.location.country = query
                 return .none
                 
             case let .view(.stateQueryChanged(query)):
-                state.location.address.stateCode = query
+//                state.location.stateCode = query
                 return .none
                 
             case .view(.getLocationsButtonTapped):
                 state.requestInFlight = true
-                return .run { [postalAddress = state.location.address] send in
+                return .run { [location = state.location] send in
                     await send(
                         .locationQueryResults(
-                            try await apiClient.coordinatesByLocationName(postalAddress)
+                            try await weatherClient.locationsfromPostalAddress(PostalAddress(location: location), "")
                         )
                     )
                 }

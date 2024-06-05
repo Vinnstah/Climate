@@ -3,8 +3,8 @@ import Foundation
 import CoreLocation
 
 struct SearchResultView: View {
-    let locations: [Location]
-    let locationButtonTapped: (Location) -> ()
+    let locations: [GeoLocation]
+    let locationButtonTapped: (GeoLocation) -> ()
     
     var body: some View {
         Divider()
@@ -22,7 +22,7 @@ struct SearchResultView: View {
 }
 
 struct SearchResultItem: View {
-    let location: Location
+    let location: GeoLocation
     let setLocationAction: () -> ()
     
     var body: some View {
@@ -30,15 +30,15 @@ struct SearchResultItem: View {
             VStack {
                 Spacer()
                 HStack {
-                    Text(location.address.city)
+                    Text(location.city)
                         .fontWeight(.heavy)
-                    Text("(\(location.address.countryCode))")
+                    Text("(\(location.country))")
                     Spacer()
                 }
                 HStack {
-                    Text("Latitude: \(location.coordinates?.latitude ?? 0)")
+                    Text("Latitude: \(location.coordinates.latitude)")
                         .font(.footnote)
-                    Text("Longitude: \(location.coordinates?.longitude ?? 0)")
+                    Text("Longitude: \(location.coordinates.longitude)")
                         .font(.footnote)
                 }
                 .foregroundStyle(.white)
@@ -50,8 +50,8 @@ struct SearchResultItem: View {
             VStack {
                 MapView(
                     coordinates: CLLocationCoordinate2D(
-                        latitude: location.coordinates?.latitude ?? 0,
-                        longitude: location.coordinates?.longitude ?? 0
+                        latitude: location.coordinates.latitude,
+                        longitude: location.coordinates.longitude
                     )
                 )
                 .frame(width: 100, height: 100, alignment: .trailing)

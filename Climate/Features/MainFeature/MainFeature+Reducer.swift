@@ -5,28 +5,28 @@ import CoreLocation
 @Reducer
 struct Main {
     @Dependency(LocationClient.self) var locationClient
-    @Dependency(ApiClient.self) var apiClient
+    @Dependency(WeatherClient.self) var weatherClient
     
     @ObservableState
     struct State: Equatable {
-        @Shared var weather: Weather
-        @Shared var location: Location
+        var weather: WeatherAtLocation
+        var location: GeoLocation
         var units: TemperatureUnits = .metric
     }
     
-    enum Action: Equatable, ViewAction {
+    enum Action: Equatable, ViewAction, Sendable {
         
         public enum View: Equatable {
             case onAppear
         }
         
-        public enum Location: Equatable {
+        public enum Location: Equatable, Sendable {
             case requestAuthorization(Result<EquatableVoid, LocationError>)
-            case getCurrentLocation(Result<CLLocationCoordinate2D, LocationError>)
+            case getCurrentLocation(Result<LocationCoordinates2D, LocationError>)
         }
         
         public enum WeatherAction: Equatable {
-            case getWeatherForCurrentLocation(Weather)
+            case getWeatherForCurrentLocation(WeatherAtLocation)
         }
         
         case weather(WeatherAction)
@@ -41,17 +41,16 @@ struct Main {
             switch action {
                 
             case .view(.onAppear):
-                guard state.location.coordinates != nil else {
+                guard !state.location.coordinates.latitude.isZero else {
                     return .run { send in
                         await send(.location(.requestAuthorization(try locationClient.requestAuthorization())))
                     }
                 }
                 
-                return .run { [location = state.location.coordinates!] send in
+                return .run { [location = state.location] send in
                     await send(.weather(.getWeatherForCurrentLocation(
-                        try await apiClient.currentWeatherAt(
-                            location,
-                            TemperatureUnits.metric
+                        try await weatherClient.currentWeatherAt(
+                            CurrentWeatherRequest(location: location, temperatureUnits: .metric)
                         )))
                     )
                 }
@@ -66,14 +65,12 @@ struct Main {
                 return .none
                 
             case let .location(.getCurrentLocation(.success(location))):
-                state.location.coordinates = location
-                return .run { [location] send in
+                return .run {  send in
                     await send(
                         .weather(
                             .getWeatherForCurrentLocation(
-                                try await apiClient.currentWeatherAt(
-                                    location,
-                                    TemperatureUnits.metric
+                                try await weatherClient.currentWeatherAt(
+                                    CurrentWeatherRequest(location: GeoLocation(location: location), temperatureUnits: .metric)
                                 )))
                     )
                 }
@@ -85,9 +82,10 @@ struct Main {
                 
             case let .weather(.getWeatherForCurrentLocation(weather)):
                 state.weather = weather
-                return .run { [location = state.location] send in
-                    print(try await apiClient.fiveDayForecast(location))
-                }
+                return .none
+//                return .run { [location = state.location] send in
+//                    print(try await weatherClient.fiveDayForecast(location))
+//                }
             }
         }
     }

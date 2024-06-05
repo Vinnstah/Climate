@@ -38,18 +38,18 @@ extension ApiClient {
         
         return .init(
             currentWeatherAt: {
-                location, unit in
+                request in
                 guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
-                    fatalError("Did you forget to export API_KEY environment variable?")
+                    throw ApiError.missingApiKey
                 }
                 var urlRequest = try buildRequest(
                     path: "data/2.5/weather",
                     addQueryItems: {
                         return [
-                            URLQueryItem(name: "lat", value: location.latitude.formatted()),
-                            URLQueryItem(name: "lon", value: location.longitude.formatted()),
+                            URLQueryItem(name: "lat", value: request.location.coordinates.latitude.formatted()),
+                            URLQueryItem(name: "lon", value: request.location.coordinates.longitude.formatted()),
                             URLQueryItem(name: "appid", value: apiKey),
-                            URLQueryItem(name: "units", value: unit?.rawValue),
+                            URLQueryItem(name: "units", value: request.temperatureUnits?.rawValue),
                         ]
                     })
                 
@@ -58,9 +58,9 @@ extension ApiClient {
                 
             },
             coordinatesByLocationName: {
-                location in
+                request in
                 guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
-                    fatalError("Did you forget to export API_KEY environment variable?")
+                    throw ApiError.missingApiKey
                 }
                 
                 var urlRequest = try buildRequest(
@@ -69,7 +69,7 @@ extension ApiClient {
                         return [
                             URLQueryItem(
                                 name: "q",
-                                value: location.formattedString()
+                                value:  request.formattedString()
                             ),
                             URLQueryItem(name: "limit", value: "5"),
                             URLQueryItem(name: "appid", value: apiKey),
@@ -80,7 +80,7 @@ extension ApiClient {
             },
             fiveDayForecast: { location in
                 guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
-                    fatalError("Did you forget to export API_KEY environment variable?")
+                    throw ApiError.missingApiKey
                 }
                 var urlRequest = try buildRequest(
                     path: "data/2.5/forecast",
@@ -88,11 +88,11 @@ extension ApiClient {
                         return [
                             URLQueryItem(
                                 name: "lat",
-                                value: location.coordinates?.latitude.description
+                                value: location.coordinates.latitude.description
                             ),
                             URLQueryItem(
                                 name: "lon",
-                                value: location.coordinates?.longitude.description
+                                value: location.coordinates.longitude.description
                             ),
                             URLQueryItem(name: "appid", value: apiKey),
                         ]
@@ -117,4 +117,8 @@ extension DependencyValues {
         get { self[ApiClient.self] }
         set { self[ApiClient.self] = newValue }
     }
+}
+
+enum ApiError: Error {
+    case missingApiKey
 }

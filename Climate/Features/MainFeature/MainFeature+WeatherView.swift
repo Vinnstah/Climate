@@ -2,8 +2,8 @@ import SwiftUI
 import Foundation
 
 struct CurrentWeatherView: View {
-    let location: Location
-    let weather: Weather
+    let location: GeoLocation
+    let weather: WeatherAtLocation
     let units: TemperatureUnits
     let geo: GeometryProxy
     
@@ -11,7 +11,7 @@ struct CurrentWeatherView: View {
         VStack(alignment: .center) {
             HStack {
                 Spacer()
-                location.address.city.isEmpty ? Text("Current Location") : Text(location.address.city + ", \(location.address.countryCode)")
+                location.city.isEmpty ? Text("Current Location") : Text(location.city + ", \(location.country)")
                     .fontWeight(.bold)
             }
             HStack {
@@ -19,7 +19,7 @@ struct CurrentWeatherView: View {
                     Circle()
                         .frame(width: geo.size.width/2)
                         .foregroundStyle(Color.primaryColor)
-                    Image(weather.currentWeather.first?.icon ?? "01d")
+                    Image(weather.conditions.image)
                         .resizable()
                         .frame(width: geo.size.width/2.2, height: geo.size.width/2.2)
                 }
@@ -29,7 +29,7 @@ struct CurrentWeatherView: View {
                         .font(.system(size: 55))
                         .fontWeight(.heavy)
                         .foregroundStyle(Color.accentColor)
-                    Text("\(weather.currentWeather.first?.description.capitalized ?? "")")
+                    Text("\(weather.conditions.description.capitalized)")
                         .font(.title3)
                 }
             }
@@ -42,7 +42,7 @@ struct CurrentWeatherView: View {
 }
 
 struct DetailView: View {
-    let weather: Weather
+    let weather: WeatherAtLocation
     let geo: GeometryProxy
     
     var body: some View {
@@ -55,7 +55,7 @@ struct DetailView: View {
                     Text("Wind")
                         .fontWeight(.bold)
                         .font(.title3)
-                    Text("\(weather.wind.speed.roundedNumberFormatted()) km/h")
+                    Text("\(weather.wind.roundedNumberFormatted()) km/h")
                 }
                 Divider()
                     .frame(width: 2, height: geo.size.height*0.1)

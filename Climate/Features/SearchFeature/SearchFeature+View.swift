@@ -10,7 +10,7 @@ extension Search {
             VStack {
                 List {
                     Section {
-                        TextField(text: $store.location.address.city.sending(\.view.cityQueryChanged)) {
+                        TextField(text: $store.location.city.sending(\.view.cityQueryChanged)) {
                             Text("London, Stockholm, ...")
                                 .foregroundStyle(Color.accentColor)
                         }
@@ -23,7 +23,7 @@ extension Search {
                     .listRowBackground(Color.primaryColor)
                     
                     Section {
-                        TextField(text: $store.location.address.countryCode.sending(\.view.countryCodeQueryChanged)) {
+                        TextField(text: $store.location.country.sending(\.view.countryCodeQueryChanged)) {
                             Text("Country Code...")
                                 .foregroundStyle(Color.accentColor)
                         }
@@ -38,23 +38,23 @@ extension Search {
                     }
                     .listRowBackground(Color.primaryColor)
                     
-                    if store.state.location.address.countryCode == "US" {
-                        Section {
-                            TextField(text:  $store.location.address.stateCode.sending(\.view.stateQueryChanged)) {
-                                Text("NY, MA, CA...")
-                                    .foregroundStyle(Color.accentColor)
-                            }
-                            .autocapitalization(.allCharacters)
-                            .disableAutocorrection(true)
-                        }
-                    header: {
-                        Text("State Code")
-                            .foregroundStyle(.white)
-                    } footer: {
-                        Text("2-letter State Code, applicable for US only.")
-                            .foregroundStyle(.white)
-                    }
-                    .listRowBackground(Color.primaryColor)
+                    if store.state.location.country == "US" {
+//                        Section {
+//                            TextField(text:  $store.location.stateCode.sending(\.view.stateQueryChanged)) {
+//                                Text("NY, MA, CA...")
+//                                    .foregroundStyle(Color.accentColor)
+//                            }
+//                            .autocapitalization(.allCharacters)
+//                            .disableAutocorrection(true)
+//                        }
+//                    header: {
+//                        Text("State Code")
+//                            .foregroundStyle(.white)
+//                    } footer: {
+//                        Text("2-letter State Code, applicable for US only.")
+//                            .foregroundStyle(.white)
+//                    }
+//                    .listRowBackground(Color.primaryColor)
                     }
                     
                     HStack {
@@ -64,7 +64,7 @@ extension Search {
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(Color.accentColor)
-                        .disabled(store.state.invalidInput() || store.state.requestInFlight)
+//                        .disabled(store.state.invalidInput() || store.state.requestInFlight)
                     }
                     .listRowBackground(Color.backgroundColor)
                 }

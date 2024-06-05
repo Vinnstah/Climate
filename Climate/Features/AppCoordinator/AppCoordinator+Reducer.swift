@@ -8,8 +8,8 @@ struct AppCoordinator {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
-        @Shared(.inMemory("location")) var location: Location = .empty
-        @Shared(.inMemory("weather")) var weather: Weather = .mock
+        @Shared var location: GeoLocation
+        @Shared var weather: WeatherAtLocation
     }
     
     @Reducer(state: .equatable, action: .equatable)
@@ -35,19 +35,19 @@ struct AppCoordinator {
             switch action {
                 
             case .view(.onAppear):
-                state.destination = .main(Main.State(weather: state.$weather, location: state.$location))
+                state.destination = .main(Main.State(weather: state.weather, location: state.location))
                 return .none
                 
             case .view(.mainTapped):
-                state.destination = .main(Main.State(weather: state.$weather, location: state.$location))
+                state.destination = .main(Main.State(weather: state.weather, location: state.location))
                 return .none
                 
             case .view(.searchTapped):
-                state.destination = .search(Search.State(location: state.$location))
+                state.destination = .search(Search.State(location: state.location))
                 return .none
                 
             case .destination(.presented(.search(.delegate(.setLocation)))):
-                state.destination = .main(Main.State(weather: state.$weather, location: state.$location))
+                state.destination = .main(Main.State(weather: state.weather, location: state.location))
                 return .none
                 
             case .destination:

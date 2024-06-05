@@ -1,7 +1,8 @@
 import Foundation
 import MetaCodable
 
-public struct Location: Hashable, Codable {
+@Codable
+public struct Location: Hashable {
     @CodedAt("name")
     let city: String
     @CodedAt("lat")
@@ -10,5 +11,5 @@ public struct Location: Hashable, Codable {
     let longitude: Double
     @CodedAt("country")
     let countryCode: String
-    let state: String
+    let state: String?
 }

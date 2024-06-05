@@ -1,6 +1,7 @@
 import Foundation
+import CoreLocation
 
-public struct Weather: Decodable, Equatable, Sendable {
+public struct Weather: Codable, Equatable, Sendable {
     let coordinates: Coordinates
     let temperature: Temperature
     let currentWeather: [CurrentWeather]
@@ -14,13 +15,8 @@ public struct Weather: Decodable, Equatable, Sendable {
         case currentWeather = "weather"
         case wind, rain, clouds
     }
-    
-    public struct Coordinates: Equatable, Codable, Sendable {
-        let lat: Double
-        let lon: Double
-    }
-    
-    public struct Temperature: Equatable, Codable, Sendable {
+
+    public struct Temperature: Codable, Equatable, Sendable {
         let temp: Double
         let feelsLike: Double
         let minTemp: Double
@@ -29,14 +25,13 @@ public struct Weather: Decodable, Equatable, Sendable {
         let humidity: UInt8
         
         public enum CodingKeys: String, CodingKey {
-            case temp = "temp"
             case feelsLike = "feels_like"
             case minTemp = "temp_min"
             case maxTemp = "temp_max"
-            case pressure, humidity
+            case temp, pressure, humidity
         }
     }
-    
+
     public struct CurrentWeather: Codable, Equatable, Sendable {
         let id: UInt16
         let condition: String
@@ -44,12 +39,11 @@ public struct Weather: Decodable, Equatable, Sendable {
         let icon: String
         
         public enum CodingKeys: String, CodingKey {
-            case id, icon, description
             case condition = "main"
+            case id, description, icon
         }
     }
-    
-    public struct Wind: Equatable, Codable, Sendable {
+    public struct Wind: Codable, Equatable, Sendable {
         let speed: Double
         let direction: UInt16
         
@@ -58,8 +52,7 @@ public struct Weather: Decodable, Equatable, Sendable {
             case direction = "deg"
         }
     }
-    
-    public struct Rain: Equatable, Codable, Sendable {
+    public struct Rain: Codable, Equatable, Sendable {
         let nextHour: Double
         
         public enum CodingKeys: String, CodingKey {
@@ -67,7 +60,7 @@ public struct Weather: Decodable, Equatable, Sendable {
         }
     }
     
-    public struct Clouds: Equatable, Codable, Sendable {
+    public struct Clouds: Codable, Equatable, Sendable {
         let coverage: UInt8
         
         public enum CodingKeys: String, CodingKey {
@@ -76,31 +69,78 @@ public struct Weather: Decodable, Equatable, Sendable {
     }
 }
 
-extension Weather {
-    static let mock: Self = Weather(
-        coordinates: Coordinates(
-            lat: 12.123,
-            lon: 12.123
-        ),
-        temperature: Temperature(
-            temp: 22.1,
-            feelsLike: 24.2,
-            minTemp: 18.2,
-            maxTemp: 26.5,
-            pressure: 1560,
-            humidity: 60
-        ),
-        currentWeather: [CurrentWeather(
-            id: 12345,
+public struct Coordinates: Equatable, Codable, Sendable {
+    let lat: Double
+    let lon: Double
+    
+    public init(coordinates: CLLocationCoordinate2D) {
+        self.lat = coordinates.latitude
+        self.lon = coordinates.longitude
+    }
+    
+    public init(lat: Double, lon: Double) {
+        self.lat = lat
+        self.lon = lon
+    }
+    
+    static let preview: Self = {
+        Self.init(
+            lat: 59.334591,
+            lon: 18.063240
+        )
+    }()
+}
+
+extension Weather.Temperature {
+    static let preview: Self = {
+        Self.init(
+            temp: 24,
+            feelsLike: 26,
+            minTemp: 17,
+            maxTemp: 29,
+            pressure: 42,
+            humidity: 50
+        )
+    }()
+}
+
+extension Weather.CurrentWeather {
+    static let preview: Self = {
+        Self.init(
+            id: 1234,
             condition: "Sun",
-            description: "Sun",
+            description: "Sunny",
             icon: "01d"
-        )],
-        wind: Wind(
-            speed: 12.2,
-            direction: 256
-        ),
-        rain: nil,
-        clouds: Clouds(coverage: 44)
-    )
+        )
+    }()
+}
+
+extension Weather.Clouds {
+    static let preview: Self = {
+        Self.init(coverage: 50)
+    }()
+}
+
+extension Weather.Rain {
+    static let preview: Self = {
+        Self.init(nextHour: 12)
+    }()
+}
+extension Weather.Wind {
+    static let preview: Self = {
+        Self.init(speed: 5, direction: 254)
+    }()
+}
+
+extension Weather {
+    static let preview: Self = {
+        Self.init(
+            coordinates: .preview,
+            temperature: .preview,
+            currentWeather: [.preview],
+            wind: .preview,
+            rain: .preview,
+            clouds: .preview
+        )
+    }()
 }

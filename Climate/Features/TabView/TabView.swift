@@ -4,8 +4,8 @@ import ComposableArchitecture
 
 extension View {
     func tabView(
-        home: @escaping () -> Void,
-        search: @escaping () -> Void,
+        home: @escaping @Sendable () -> Void,
+        search: @escaping @Sendable () -> Void,
         geo: GeometryProxy
     ) -> some View {
         VStack {
@@ -22,7 +22,7 @@ extension View {
                             VStack {
                                 Image(systemName: "cloud.sun.bolt")
                                     .foregroundStyle(Color.accentColor)
-                                    .frame(width: geo.size.width/6, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                    .frame(width: geo.size.width/6, height: 20, alignment: .center)
                                 Text("Home")
                                     .font(.footnote)
                                     .fontWeight(.bold)
@@ -36,7 +36,7 @@ extension View {
                             VStack {
                                 Image(systemName: "location.magnifyingglass")
                                     .foregroundStyle(Color.accentColor)
-                                    .frame(width: geo.size.width/6, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                    .frame(width: geo.size.width/6, height: 20, alignment: .center)
                                 Text("Search")
                                     .font(.footnote)
                                     .fontWeight(.bold)
