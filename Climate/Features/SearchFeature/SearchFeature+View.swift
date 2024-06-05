@@ -33,14 +33,14 @@ extension Search {
                         Text("Country Code")
                             .foregroundStyle(.white)
                     } footer: {
-                        Text("ISO 3801, 2- or 3- character codes only")
+                        Text("ISO 3166, 2 or 3 character codes only")
                             .foregroundStyle(.white)
                     }
                     .listRowBackground(Color.primaryColor)
                     
-                    if store.state.location.address.countryCode == "US" {
+                    if store.state.countryCode == "US" {
                         Section {
-                            TextField(text:  $store.stateCode.sending(\.view.stateQueryChanged)) {
+                            TextField(text: $store.stateCode.sending(\.view.stateQueryChanged)) {
                                 Text("NY, MA, CA...")
                                     .foregroundStyle(Color.accentColor)
                             }

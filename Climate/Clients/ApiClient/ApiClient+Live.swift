@@ -13,18 +13,18 @@ extension ApiClient {
         ) throws -> URLRequest {
             let baseURL: URL = .openWeather
             
-            let url: URL = {
+            let url: URL = try {
                 guard var urlComponents = URLComponents(
                     url: baseURL.appending(path: path),
                     resolvingAgainstBaseURL: true
                 ) else {
-                    fatalError("no components")
+                    throw ApiError.noComponents
                 }
                 
                 urlComponents.queryItems = addQueryItems()
                 
                 guard let url = urlComponents.url else {
-                    fatalError("Failed to construct URL")
+                    throw ApiError.failedToConstructURL
                 }
                 return url
             }()
@@ -122,4 +122,6 @@ extension DependencyValues {
 
 public enum ApiError: Error {
     case missingApiKey
+    case noComponents
+    case failedToConstructURL
 }

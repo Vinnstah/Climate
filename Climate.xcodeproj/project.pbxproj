@@ -13,7 +13,6 @@
 		E5625F982C073B6400EE1AD5 /* ClimateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625F972C073B6400EE1AD5 /* ClimateApp.swift */; };
 		E5625F9C2C073B6600EE1AD5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5625F9B2C073B6600EE1AD5 /* Assets.xcassets */; };
 		E5625F9F2C073B6600EE1AD5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5625F9E2C073B6600EE1AD5 /* Preview Assets.xcassets */; };
-		E5625FA92C073B6600EE1AD5 /* ClimateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FA82C073B6600EE1AD5 /* ClimateTests.swift */; };
 		E5625FB32C073B6600EE1AD5 /* ClimateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FB22C073B6600EE1AD5 /* ClimateUITests.swift */; };
 		E5625FB52C073B6600EE1AD5 /* ClimateUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5625FB42C073B6600EE1AD5 /* ClimateUITestsLaunchTests.swift */; };
 		E5625FC32C073DFB00EE1AD5 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E5625FC22C073DFB00EE1AD5 /* ComposableArchitecture */; };
@@ -72,7 +71,6 @@
 		E5625F9B2C073B6600EE1AD5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E5625F9E2C073B6600EE1AD5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E5625FA42C073B6600EE1AD5 /* ClimateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClimateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E5625FA82C073B6600EE1AD5 /* ClimateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimateTests.swift; sourceTree = "<group>"; };
 		E5625FAE2C073B6600EE1AD5 /* ClimateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClimateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5625FB22C073B6600EE1AD5 /* ClimateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimateUITests.swift; sourceTree = "<group>"; };
 		E5625FB42C073B6600EE1AD5 /* ClimateUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimateUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -188,7 +186,6 @@
 		E5625FA72C073B6600EE1AD5 /* ClimateTests */ = {
 			isa = PBXGroup;
 			children = (
-				E5625FA82C073B6600EE1AD5 /* ClimateTests.swift */,
 				E502DD8B2C0A0160005F872F /* AppCoordinatorTests.swift */,
 			);
 			path = ClimateTests;
@@ -504,7 +501,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E502DD8C2C0A0160005F872F /* AppCoordinatorTests.swift in Sources */,
-				E5625FA92C073B6600EE1AD5 /* ClimateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

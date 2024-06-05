@@ -28,7 +28,11 @@ public struct PostalAddress: Hashable, Sendable {
     }
     
     public static let preview: Self = {
-        Self.init(countryCode: "SE", city: "Preview", stateCode: nil)
+        Self.init(
+            countryCode: "SE",
+            city: "Preview",
+            stateCode: nil
+        )
     }()
 }
 
@@ -42,7 +46,7 @@ public struct PostalAddressRequest: Equatable {
         case true:
             return "\(self.city),\(self.countryCode)"
         case false:
-            return "\(self.city),\(self.stateCode),\(self.countryCode)"
+            return "\(self.city),\(String(describing: self.stateCode)),\(self.countryCode)"
         }
     }
     
@@ -54,7 +58,6 @@ public struct PostalAddressRequest: Equatable {
         self.stateCode = address.stateCode
     }
 }
-
 
 public struct GeoLocation: Hashable, Sendable {
     let coordinates: LocationCoordinates2D
@@ -85,7 +88,11 @@ public struct GeoLocation: Hashable, Sendable {
     
     public init(location: LocationCoordinates2D) {
         self.coordinates = location
-        self.address = PostalAddress(countryCode: "", city: "Current Location", stateCode: nil)
+        self.address = PostalAddress(
+            countryCode: "",
+            city: "Current Location",
+            stateCode: nil
+        )
     }
     
     static let empty: Self = {

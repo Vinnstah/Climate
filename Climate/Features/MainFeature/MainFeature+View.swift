@@ -8,6 +8,7 @@ extension Main {
         var body: some SwiftUI.View {
             GeometryReader { geo in
                 VStack(alignment: .leading) {
+                    
                     if store.weather.postalAddress.city == "Preview" {
                         MockedDataDisclaimerBanner()
                     }
@@ -20,7 +21,7 @@ extension Main {
                     )
                     
                     ForecastView(
-                        forecasts: store.state.forecast, 
+                        forecasts: store.state.forecast,
                         unit: store.units,
                         geo: geo
                     )
@@ -43,6 +44,6 @@ public struct MockedDataDisclaimerBanner: View {
             .background(Color.accentColor)
             .font(.system(size: 12))
     }
-
+    
     public init() {}
 }
