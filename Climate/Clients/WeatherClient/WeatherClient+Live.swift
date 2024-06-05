@@ -11,8 +11,8 @@ extension WeatherClient {
                 let weather = try await apiClient.currentWeatherAt(request)
                 return WeatherAtLocation(weather: weather, location: request.location)
             },
-            locationsfromPostalAddress: { address, stateCode in
-                try await apiClient.coordinatesByLocationName(PostalAddressRequest(address: address, stateCode: stateCode))
+            locationsfromPostalAddress: { address in
+                return try await apiClient.coordinatesByLocationName(PostalAddressRequest(address: address))
                     .map( { GeoLocation(location: $0) })
             },
             fiveDayForecast: { location in

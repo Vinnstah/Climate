@@ -11,7 +11,7 @@ struct CurrentWeatherView: View {
         VStack(alignment: .center) {
             HStack {
                 Spacer()
-                location.city.isEmpty ? Text("Current Location") : Text(location.city + ", \(location.country)")
+                location.address.city.isEmpty ? Text("Current Location") : Text(location.address.city + ", \(location.address.countryCode)")
                     .fontWeight(.bold)
             }
             HStack {

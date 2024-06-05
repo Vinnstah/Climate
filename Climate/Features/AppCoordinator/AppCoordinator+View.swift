@@ -3,7 +3,7 @@ import Foundation
 import SwiftUI
 
 extension AppCoordinator {
-    struct View: SwiftUI.View {
+    struct View: SwiftUI.View, Sendable {
         let store: StoreOf<AppCoordinator>
         
         public init(

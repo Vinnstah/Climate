@@ -6,7 +6,7 @@ import DependenciesMacros
 public struct WeatherClient: Sendable, DependencyKey {
     
     public typealias CurrentWeatherAt = @Sendable (CurrentWeatherRequest) async throws -> WeatherAtLocation
-    public typealias LocationsFromPostalAddress = @Sendable (PostalAddress, _ stateCode: String) async throws -> [GeoLocation]
+    public typealias LocationsFromPostalAddress = @Sendable (PostalAddress) async throws -> [GeoLocation]
     public typealias FiveDayForecast = @Sendable (GeoLocation) async throws -> Forecast
     
     public var currentWeatherAt: CurrentWeatherAt

@@ -8,36 +8,34 @@ struct Search {
     
     @ObservableState
     struct State: Equatable {
-        var location: GeoLocation
+        @Shared var location: GeoLocation
         var locations: [GeoLocation] = []
         var requestInFlight: Bool = false
+        var countryCode: String = ""
+        var stateCode: String = ""
+        var city: String = ""
         
-//        func invalidInput() -> Bool {
-//            guard (
-//                !location.city.isEmpty && !location.countryCode.isEmpty
-//            ) else {
-//                return true
-//            }
-//            
-//            guard location.countryCode.count < 3 else {
-//                return true
-//            }
-//            
-//            if location.countryCode == "US" {
-//                guard (
-//                    !location.state .stateCode.isEmpty && location.stateCode.count == 2
-//                ) else {
-//                    return true
-//                }
-//            }
-//            return false
-//        }
         
-//        public init(location: Shared<Location>) {
-//            self.locations = []
-//            self.requestInFlight = false
-//            self._location = location
-//        }
+        //        func invalidInput() -> Bool {
+        //            guard (
+        //                !location.city.isEmpty && !location.countryCode.isEmpty
+        //            ) else {
+        //                return true
+        //            }
+        //
+        //            guard location.countryCode.count < 3 else {
+        //                return true
+        //            }
+        //
+        //            if location.countryCode == "US" {
+        //                guard (
+        //                    !location.state .stateCode.isEmpty && location.stateCode.count == 2
+        //                ) else {
+        //                    return true
+        //                }
+        //            }
+        //            return false
+        //        }
     }
     
     enum Action: Equatable, BindableAction, Sendable {
@@ -52,7 +50,7 @@ struct Search {
             case setLocationButtonTapped(GeoLocation)
             case cityQueryChanged(String)
             case countryCodeQueryChanged(String)
-            case stateQueryChanged(String)
+            case stateQueryChanged(String?)
         }
         
         enum DelegateAction: Equatable {
@@ -62,28 +60,34 @@ struct Search {
     
     var body: some ReducerOf<Self> {
         BindingReducer()
-        
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
                 
             case let .view(.cityQueryChanged(query)):
-                state.location.city = query
+                state.city = query
                 return .none
                 
             case let .view(.countryCodeQueryChanged(query)):
-                state.location.country = query
+                state.countryCode = query
                 return .none
                 
             case let .view(.stateQueryChanged(query)):
-//                state.location.stateCode = query
+                state.stateCode = query ?? ""
                 return .none
                 
             case .view(.getLocationsButtonTapped):
                 state.requestInFlight = true
-                return .run { [location = state.location] send in
+                let address = PostalAddress(
+                    countryCode: state.countryCode,
+                    city: state.city,
+                    stateCode: state.stateCode == "" ? nil : state.stateCode
+                )
+                return .run {  send in
                     await send(
                         .locationQueryResults(
-                            try await weatherClient.locationsfromPostalAddress(PostalAddress(location: location), "")
+                            try await weatherClient.locationsfromPostalAddress(address)
                         )
                     )
                 }
@@ -94,12 +98,6 @@ struct Search {
                 return .none
                 
             case let .view(.setLocationButtonTapped(location)):
-//                let location = CLLocationCoordinate2D(
-//                    latitude: locations.coordinates.latitude,
-//                    longitude: locations.coordinates.longitude
-//                )
-//                state.location.coordinates = location
-//                state.location.address.city = locations.address.city
                 state.location = location
                 return .run { send in
                     await send(.delegate(.setLocation))

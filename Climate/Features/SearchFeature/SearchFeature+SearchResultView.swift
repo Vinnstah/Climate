@@ -30,9 +30,9 @@ struct SearchResultItem: View {
             VStack {
                 Spacer()
                 HStack {
-                    Text(location.city)
+                    Text(location.address.city)
                         .fontWeight(.heavy)
-                    Text("(\(location.country))")
+                    Text("(\(location.address.countryCode))")
                     Spacer()
                 }
                 HStack {

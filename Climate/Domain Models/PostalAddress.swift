@@ -1,34 +1,44 @@
 import Foundation
 
-public struct PostalAddress: Equatable {
+public struct PostalAddress: Hashable, Sendable {
     let countryCode: String
     let city: String
+    let stateCode: String?
     
-    public init(location: GeoLocation) {
+    public init(location: Location) {
         self.city = location.city
-        self.countryCode = location.country
+        self.countryCode = location.countryCode
+        self.stateCode = nil
+    }
+    
+    public init(geoLocation: GeoLocation) {
+        self.city = geoLocation.address.city
+        self.countryCode = geoLocation.address.countryCode
+        self.stateCode = geoLocation.address.stateCode
     }
     
     internal init(
         countryCode: String,
-        city: String
+        city: String,
+        stateCode: String?
     ) {
         self.countryCode = countryCode
         self.city = city
+        self.stateCode = stateCode
     }
     
     public static let preview: Self = {
-        Self.init(countryCode: "SE", city: "Stockholm")
+        Self.init(countryCode: "SE", city: "Stockholm", stateCode: nil)
     }()
 }
 
 public struct PostalAddressRequest: Equatable {
-    let stateCode: String
+    let stateCode: String?
     let countryCode: String
     let city: String
     
     func formattedString() -> String {
-        switch self.stateCode.isEmpty {
+        switch self.stateCode == nil {
         case true:
             return "\(self.city),\(self.countryCode)"
         case false:
@@ -37,43 +47,55 @@ public struct PostalAddressRequest: Equatable {
     }
     
     public init(
-        address: PostalAddress,
-        stateCode: String
+        address: PostalAddress
     ) {
         self.city = address.city
         self.countryCode = address.countryCode
-        self.stateCode = stateCode
+        self.stateCode = address.stateCode
     }
 }
 
 
 public struct GeoLocation: Hashable, Sendable {
     let coordinates: LocationCoordinates2D
-    var city: String
-    var country: String
+    let address: PostalAddress
     
     public init(location: Location) {
-        self.coordinates = LocationCoordinates2D(
+        let coordinates = LocationCoordinates2D(
             latitude: location.latitude,
             longitude: location.longitude
         )
-        self.city = location.city
-        self.country = location.countryCode
+        self.init(
+            address: .init(
+                countryCode: location.countryCode,
+                city: location.city,
+                stateCode: nil
+            ),
+            location: coordinates
+        )
     }
     
-    public init(address: PostalAddress, location: LocationCoordinates2D) {
+    public init(
+        address: PostalAddress,
+        location: LocationCoordinates2D
+    ) {
         self.coordinates = location
-        self.city = address.city
-        self.country = address.countryCode
+        self.address = address
     }
     
     public init(location: LocationCoordinates2D) {
         self.coordinates = location
-        self.city = "Current Location"
-        self.country = ""
+        self.address = PostalAddress(countryCode: "", city: "Current Location", stateCode: nil)
     }
     
     static let empty: Self = {
-        Self.init(address: .init(countryCode: "", city: ""), location: .init())
+        Self.init(
+            address: .init(
+                countryCode: "",
+                city: "",
+                stateCode: ""
+            ),
+            location: .init()
+        )
     }()
 }

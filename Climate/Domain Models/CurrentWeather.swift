@@ -25,7 +25,7 @@ public struct CurrentWeatherRequest: Equatable {
     }
 }
 
-public struct WeatherAtLocation: Equatable {
+public struct WeatherAtLocation: Equatable, Sendable {
     let temperature: CurrentTemperature
     let postalAddress: PostalAddress
     let wind: Double
@@ -40,7 +40,7 @@ public struct WeatherAtLocation: Equatable {
             feelsLike: weather.temperature.feelsLike,
             humidity: weather.temperature.humidity
         )
-        self.postalAddress = PostalAddress(location: location)
+        self.postalAddress = PostalAddress(geoLocation: location)
         self.wind = weather.wind.speed
         self.conditions = Conditions(weather: weather.currentWeather.first!)
     }
@@ -62,7 +62,7 @@ public struct WeatherAtLocation: Equatable {
     }()
 }
 
-public struct CurrentTemperature: Equatable {
+public struct CurrentTemperature: Equatable, Sendable {
     let temp: Double
     let feelsLike: Double
     let humidity: UInt8
@@ -76,7 +76,7 @@ public struct CurrentTemperature: Equatable {
     }()
 }
 
-public struct Conditions: Equatable {
+public struct Conditions: Equatable, Sendable {
     let description: String
     let image: String
     

@@ -25,7 +25,7 @@ struct Main {
             case getCurrentLocation(Result<LocationCoordinates2D, LocationError>)
         }
         
-        public enum WeatherAction: Equatable {
+        public enum WeatherAction: Equatable, Sendable {
             case getWeatherForCurrentLocation(WeatherAtLocation)
         }
         
@@ -41,7 +41,7 @@ struct Main {
             switch action {
                 
             case .view(.onAppear):
-                guard !state.location.coordinates.latitude.isZero else {
+                guard !state.location.address.countryCode.isEmpty else {
                     return .run { send in
                         await send(.location(.requestAuthorization(try locationClient.requestAuthorization())))
                     }

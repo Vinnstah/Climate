@@ -11,7 +11,7 @@ extension ApiClient {
             path: String,
             addQueryItems: @escaping () -> ([URLQueryItem])
         ) throws -> URLRequest {
-            let baseURL = URL(string: "https://api.openweathermap.org/")!
+            let baseURL: URL = .openWeather
             
             let url: URL = {
                 guard var urlComponents = URLComponents(
@@ -75,6 +75,7 @@ extension ApiClient {
                             URLQueryItem(name: "appid", value: apiKey),
                         ]
                     })
+                print(urlRequest)
                 let data = try await httpClient.makeRequest(urlRequest)
                 return try decoder.decode([Location].self, from: data)
             },

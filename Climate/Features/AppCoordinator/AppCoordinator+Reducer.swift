@@ -12,13 +12,13 @@ struct AppCoordinator {
         @Shared var weather: WeatherAtLocation
     }
     
-    @Reducer(state: .equatable, action: .equatable)
-    enum Destination {
+    @Reducer(state: .equatable, .sendable, action: .equatable, .sendable)
+    enum Destination: Sendable {
         case search(Search)
         case main(Main)
     }
     
-    enum Action: Equatable, ViewAction {
+    enum Action: Equatable, ViewAction, Sendable {
         @CasePathable
         public enum View: Equatable {
             case mainTapped
@@ -43,7 +43,7 @@ struct AppCoordinator {
                 return .none
                 
             case .view(.searchTapped):
-                state.destination = .search(Search.State(location: state.location))
+                state.destination = .search(Search.State(location: state.$location))
                 return .none
                 
             case .destination(.presented(.search(.delegate(.setLocation)))):
