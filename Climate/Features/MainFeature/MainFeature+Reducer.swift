@@ -13,10 +13,17 @@ struct Main {
         var location: GeoLocation
         var units: TemperatureUnits = .metric
         var forecast: Forecast? = nil
-        var alert: AlertState<Alert>
+        @Presents var alert: AlertState<Main.Action.AlertAction>? = nil
     }
     
-    enum Action: Equatable, ViewAction, Sendable {
+    enum Action: Equatable, ViewAction, Sendable, BindableAction {
+        
+        @CasePathable
+        public enum AlertAction: Equatable {
+            case dismiss
+            case retryAuthorization
+            case retryLocation
+        }
         
         public enum View: Equatable {
             case onAppear
@@ -35,9 +42,13 @@ struct Main {
         case weather(WeatherAction)
         case view(View)
         case location(Location)
+        case alert(PresentationAction<AlertAction>)
+        case binding(BindingAction<Main.State>)
     }
     
     var body: some ReducerOf<Self> {
+        BindingReducer()
+        
         Reduce {
             state, action in
             
@@ -64,7 +75,18 @@ struct Main {
                 }
                 
             case let .location(.requestAuthorization(.failure(error))):
-                print(error)
+                state.alert = AlertState {
+                    TextState("Failed Authorization")
+                } actions: {
+                    ButtonState(action: .send(.retryAuthorization)) {
+                        TextState("Try Again")
+                    }
+                    ButtonState(role: .cancel) {
+                        TextState("Cancel")
+                    }
+                } message: {
+                    TextState(error.localizedDescription)
+                }
                 return .none
                 
             case let .location(.getCurrentLocation(.success(location))):
@@ -79,25 +101,49 @@ struct Main {
                 }
                 
             case let .location(.getCurrentLocation(.failure(error))):
-                // TODO: handle error
-                print(error)
+                state.alert = AlertState {
+                    TextState("Failed to get Location")
+                } actions: {
+                    ButtonState(action: .send(.retryLocation)) {
+                        TextState("Try Again")
+                    }
+                    ButtonState(role: .cancel) {
+                        TextState("Cancel")
+                    }
+                } message: {
+                    TextState(error.localizedDescription)
+                }
                 return .none
                 
             case let .weather(.getWeatherForCurrentLocation(weather)):
                 state.weather = weather
                 return .run { [location = state.location, units = state.units] send in
                     
-                     let result = try await weatherClient.fiveDayForecast(
-                            ForecastRequest(
-                                latitude: location.coordinates.latitude,
-                                longitude: location.coordinates.longitude,
-                                units: units
-                            )
+                    let result = try await weatherClient.fiveDayForecast(
+                        ForecastRequest(
+                            latitude: location.coordinates.latitude,
+                            longitude: location.coordinates.longitude,
+                            units: units
                         )
+                    )
                     await send(.weather(.getForecastForCurrentLocation(result)))
                 }
+                
+            case .alert(.presented(.retryAuthorization)):
+                return .run { send in
+                    await send(.location(.requestAuthorization(try locationClient.requestAuthorization())))
+                }
+                
+            case .alert(.presented(.retryLocation)):
+                return .run { send in
+                    await send(.location(.getCurrentLocation(try locationClient.getCurrentLocation())))
+                }
+                
             case let .weather(.getForecastForCurrentLocation(forecast)):
                 state.forecast = forecast
+                return .none
+                
+            case .alert, .binding:
                 return .none
             }
         }

@@ -4,7 +4,7 @@ import ComposableArchitecture
 
 extension Main {
     struct View: SwiftUI.View {
-        let store: StoreOf<Main>
+        @Bindable var store: StoreOf<Main>
         var body: some SwiftUI.View {
             GeometryReader { geo in
                 VStack(alignment: .leading) {
@@ -23,11 +23,11 @@ extension Main {
                     )
                 }
             }
+            .alert($store.scope(state: \.alert, action: \.alert))
             .background(Color.backgroundColor.ignoresSafeArea())
             .onAppear {
                 store.send(.view(.onAppear))
             }
-            
         }
     }
 }
