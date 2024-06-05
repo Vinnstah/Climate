@@ -37,7 +37,7 @@ extension ApiClient {
         }
         
         return .init(
-            currentWeatherData: {
+            currentWeatherAt: {
                 location, unit in
                 guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
                     fatalError("Did you forget to export API_KEY environment variable?")
@@ -57,7 +57,7 @@ extension ApiClient {
                 return try decoder.decode(Weather.self, from: data)
                 
             },
-            coordinatesByLocation: {
+            coordinatesByLocationName: {
                 location in
                 guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
                     fatalError("Did you forget to export API_KEY environment variable?")
@@ -66,25 +66,50 @@ extension ApiClient {
                 var urlRequest = try buildRequest(
                     path: "geo/1.0/direct",
                     addQueryItems: {
-                            return [
-                                URLQueryItem(
-                                    name: "q",
-                                    value: location.formattedString()
-                                ),
-                                URLQueryItem(name: "limit", value: "5"),
-                                URLQueryItem(name: "appid", value: apiKey),
-                            ]
+                        return [
+                            URLQueryItem(
+                                name: "q",
+                                value: location.formattedString()
+                            ),
+                            URLQueryItem(name: "limit", value: "5"),
+                            URLQueryItem(name: "appid", value: apiKey),
+                        ]
                     })
                 let data = try await httpClient.makeRequest(urlRequest)
-                return try decoder.decode([SearchResult].self, from: data)
+                return try decoder.decode([Location].self, from: data)
+            },
+            fiveDayForecast: { location in
+                guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
+                    fatalError("Did you forget to export API_KEY environment variable?")
+                }
+                var urlRequest = try buildRequest(
+                    path: "data/2.5/forecast",
+                    addQueryItems: {
+                        return [
+                            URLQueryItem(
+                                name: "lat",
+                                value: location.coordinates?.latitude.description
+                            ),
+                            URLQueryItem(
+                                name: "lon",
+                                value: location.coordinates?.longitude.description
+                            ),
+                            URLQueryItem(name: "appid", value: apiKey),
+                        ]
+                    })
+                
+                let data = try await httpClient.makeRequest(urlRequest)
+                return try decoder.decode(Forecast.self, from: data)
+                
             })
     }()
 }
 
 extension ApiClient: TestDependencyKey {
     public static let testValue = Self(
-        currentWeatherData: unimplemented("ApiClient.currentWeatherData"),
-        coordinatesByLocation: unimplemented("ApiClient.coordinatesByLocation"))
+        currentWeatherAt: unimplemented("ApiClient.currentWeatherData"),
+        coordinatesByLocationName: unimplemented("ApiClient.coordinatesByLocation"),
+        fiveDayForecast: unimplemented("ApiClient.fiveDayForecast"))
 }
 
 extension DependencyValues {

@@ -10,7 +10,7 @@ extension Search {
             VStack {
                 List {
                     Section {
-                        TextField(text: $store.location.city.sending(\.view.cityQueryChanged)) {
+                        TextField(text: $store.location.address.city.sending(\.view.cityQueryChanged)) {
                             Text("London, Stockholm, ...")
                                 .foregroundStyle(Color.accentColor)
                         }
@@ -23,7 +23,7 @@ extension Search {
                     .listRowBackground(Color.primaryColor)
                     
                     Section {
-                        TextField(text: $store.location.countryCode.sending(\.view.countryCodeQueryChanged)) {
+                        TextField(text: $store.location.address.countryCode.sending(\.view.countryCodeQueryChanged)) {
                             Text("Country Code...")
                                 .foregroundStyle(Color.accentColor)
                         }
@@ -38,9 +38,9 @@ extension Search {
                     }
                     .listRowBackground(Color.primaryColor)
                     
-                    if store.state.location.countryCode == "US" {
+                    if store.state.location.address.countryCode == "US" {
                         Section {
-                            TextField(text:  $store.location.stateCode.sending(\.view.stateQueryChanged)) {
+                            TextField(text:  $store.location.address.stateCode.sending(\.view.stateQueryChanged)) {
                                 Text("NY, MA, CA...")
                                     .foregroundStyle(Color.accentColor)
                             }
@@ -70,8 +70,8 @@ extension Search {
                 }
                 .scrollContentBackground(.hidden)
                 
-                if !store.searchResult.isEmpty {
-                    SearchResultView(searchResult: store.state.searchResult) { searchResult in
+                if !store.locations.isEmpty {
+                    SearchResultView(locations: store.state.locations) { searchResult in
                         store.send(.view(.setLocationButtonTapped(searchResult)))
                     }
                 }

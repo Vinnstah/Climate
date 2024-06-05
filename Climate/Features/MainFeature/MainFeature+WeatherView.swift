@@ -11,7 +11,7 @@ struct CurrentWeatherView: View {
         VStack(alignment: .center) {
             HStack {
                 Spacer()
-                location.city.isEmpty ? Text("Current Location") : Text(location.city + ", \(location.countryCode)")
+                location.address.city.isEmpty ? Text("Current Location") : Text(location.address.city + ", \(location.address.countryCode)")
                     .fontWeight(.bold)
             }
             HStack {
@@ -64,7 +64,7 @@ struct DetailView: View {
                     Text("Feels like")
                         .fontWeight(.bold)
                         .font(.title3)
-                    Text("\(weather.temperature.feelsLike.roundedNumberFormatted())")
+                    Text("\(weather.temperature.feelsLike.roundedNumberFormatted()) °C")
                 }
                 Divider()
                     .frame(width: 2, height: geo.size.height*0.1)

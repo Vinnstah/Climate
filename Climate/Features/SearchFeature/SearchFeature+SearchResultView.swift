@@ -3,15 +3,15 @@ import Foundation
 import CoreLocation
 
 struct SearchResultView: View {
-    let searchResult: [SearchResult]
-    let locationButtonTapped: (SearchResult) -> ()
+    let locations: [Location]
+    let locationButtonTapped: (Location) -> ()
     
     var body: some View {
         Divider()
         List {
-            ForEach(searchResult, id: \.self) { searchResult in
-                SearchResultItem(location: searchResult) {
-                    locationButtonTapped(searchResult)
+            ForEach(locations, id: \.self) { location in
+                SearchResultItem(location: location) {
+                    locationButtonTapped(location)
                 }
                 .listRowBackground(Color.backgroundColor)
             }
@@ -22,7 +22,7 @@ struct SearchResultView: View {
 }
 
 struct SearchResultItem: View {
-    let location: SearchResult
+    let location: Location
     let setLocationAction: () -> ()
     
     var body: some View {
@@ -30,15 +30,15 @@ struct SearchResultItem: View {
             VStack {
                 Spacer()
                 HStack {
-                    Text(location.name)
+                    Text(location.address.city)
                         .fontWeight(.heavy)
-                    Text("(\(location.country))")
+                    Text("(\(location.address.countryCode))")
                     Spacer()
                 }
                 HStack {
-                    Text("Latitude: \(location.lat)")
+                    Text("Latitude: \(location.coordinates?.latitude ?? 0)")
                         .font(.footnote)
-                    Text("Longitude: \(location.lon)")
+                    Text("Longitude: \(location.coordinates?.longitude ?? 0)")
                         .font(.footnote)
                 }
                 .foregroundStyle(.white)
@@ -48,8 +48,13 @@ struct SearchResultItem: View {
             .background(Color.backgroundColor)
             
             VStack {
-                MapView(coordinates: CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
-                    .frame(width: 100, height: 100, alignment: .trailing)
+                MapView(
+                    coordinates: CLLocationCoordinate2D(
+                        latitude: location.coordinates?.latitude ?? 0,
+                        longitude: location.coordinates?.longitude ?? 0
+                    )
+                )
+                .frame(width: 100, height: 100, alignment: .trailing)
                 
                 Button("Set Location") {
                     setLocationAction()

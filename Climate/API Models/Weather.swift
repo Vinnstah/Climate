@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Weather: Decodable, Equatable {
+public struct Weather: Decodable, Equatable, Sendable {
     let coordinates: Coordinates
     let temperature: Temperature
     let currentWeather: [CurrentWeather]
@@ -15,12 +15,12 @@ public struct Weather: Decodable, Equatable {
         case wind, rain, clouds
     }
     
-    public struct Coordinates: Equatable, Codable {
+    public struct Coordinates: Equatable, Codable, Sendable {
         let lat: Double
         let lon: Double
     }
     
-    public struct Temperature: Equatable, Codable {
+    public struct Temperature: Equatable, Codable, Sendable {
         let temp: Double
         let feelsLike: Double
         let minTemp: Double
@@ -37,7 +37,7 @@ public struct Weather: Decodable, Equatable {
         }
     }
     
-    public struct CurrentWeather: Codable, Equatable {
+    public struct CurrentWeather: Codable, Equatable, Sendable {
         let id: UInt16
         let condition: String
         let description: String
@@ -49,7 +49,7 @@ public struct Weather: Decodable, Equatable {
         }
     }
     
-    public struct Wind: Equatable, Codable {
+    public struct Wind: Equatable, Codable, Sendable {
         let speed: Double
         let direction: UInt16
         
@@ -59,7 +59,7 @@ public struct Weather: Decodable, Equatable {
         }
     }
     
-    public struct Rain: Equatable, Codable {
+    public struct Rain: Equatable, Codable, Sendable {
         let nextHour: Double
         
         public enum CodingKeys: String, CodingKey {
@@ -67,23 +67,11 @@ public struct Weather: Decodable, Equatable {
         }
     }
     
-    public struct Clouds: Equatable, Codable {
+    public struct Clouds: Equatable, Codable, Sendable {
         let coverage: UInt8
         
         public enum CodingKeys: String, CodingKey {
             case coverage = "all"
-        }
-    }
-}
-
-public enum TemperatureUnits: String {
-    case metric
-    case imperial
-    
-    var description: String {
-        switch self {
-        case .metric: return "C"
-        case .imperial: return "F"
         }
     }
 }

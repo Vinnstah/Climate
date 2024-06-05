@@ -41,15 +41,15 @@ struct Main {
             switch action {
                 
             case .view(.onAppear):
-                guard state.location.location != nil else {
+                guard state.location.coordinates != nil else {
                     return .run { send in
                         await send(.location(.requestAuthorization(try locationClient.requestAuthorization())))
                     }
                 }
                 
-                return .run { [location = state.location.location!] send in
+                return .run { [location = state.location.coordinates!] send in
                     await send(.weather(.getWeatherForCurrentLocation(
-                        try await apiClient.currentWeatherData(
+                        try await apiClient.currentWeatherAt(
                             location,
                             TemperatureUnits.metric
                         )))
@@ -66,12 +66,12 @@ struct Main {
                 return .none
                 
             case let .location(.getCurrentLocation(.success(location))):
-                state.location.location = location
+                state.location.coordinates = location
                 return .run { [location] send in
                     await send(
                         .weather(
                             .getWeatherForCurrentLocation(
-                                try await apiClient.currentWeatherData(
+                                try await apiClient.currentWeatherAt(
                                     location,
                                     TemperatureUnits.metric
                                 )))
@@ -85,7 +85,9 @@ struct Main {
                 
             case let .weather(.getWeatherForCurrentLocation(weather)):
                 state.weather = weather
-                return .none
+                return .run { [location = state.location] send in
+                    print(try await apiClient.fiveDayForecast(location))
+                }
             }
         }
     }

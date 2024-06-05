@@ -9,23 +9,23 @@ struct Search {
     @ObservableState
     struct State: Equatable {
         @Shared var location: Location
-        var searchResult: [SearchResult]
+        var locations: [Location]
         var requestInFlight: Bool
         
         func invalidInput() -> Bool {
             guard (
-                !location.city.isEmpty && !location.countryCode.isEmpty
+                !location.address.city.isEmpty && !location.address.countryCode.isEmpty
             ) else {
                 return true
             }
             
-            guard location.countryCode.count < 3 else {
+            guard location.address.countryCode.count < 3 else {
                 return true
             }
             
-            if location.countryCode == "US" {
+            if location.address.countryCode == "US" {
                 guard (
-                    !location.stateCode.isEmpty && location.stateCode.count == 2
+                    !location.address.stateCode.isEmpty && location.address.stateCode.count == 2
                 ) else {
                     return true
                 }
@@ -34,7 +34,7 @@ struct Search {
         }
         
         public init(location: Shared<Location>) {
-            self.searchResult = []
+            self.locations = []
             self.requestInFlight = false
             self._location = location
         }
@@ -44,12 +44,12 @@ struct Search {
         case binding(BindingAction<Search.State>)
         case view(View)
         case delegate(DelegateAction)
-        case locationQueryResults([SearchResult])
+        case locationQueryResults([Location])
         
         @CasePathable
         enum View: Equatable {
             case getLocationsButtonTapped
-            case setLocationButtonTapped(SearchResult)
+            case setLocationButtonTapped(Location)
             case cityQueryChanged(String)
             case countryCodeQueryChanged(String)
             case stateQueryChanged(String)
@@ -67,39 +67,40 @@ struct Search {
             switch action {
                 
             case let .view(.cityQueryChanged(query)):
-                state.location.city = query
+                state.location.address.city = query
                 return .none
                 
             case let .view(.countryCodeQueryChanged(query)):
-                state.location.countryCode = query
+                state.location.address.countryCode = query
                 return .none
                 
             case let .view(.stateQueryChanged(query)):
-                state.location.stateCode = query
+                state.location.address.stateCode = query
                 return .none
                 
             case .view(.getLocationsButtonTapped):
                 state.requestInFlight = true
-                return .run { [location = state.location] send in
+                return .run { [postalAddress = state.location.address] send in
                     await send(
                         .locationQueryResults(
-                            try await apiClient.coordinatesByLocation(location)
+                            try await apiClient.coordinatesByLocationName(postalAddress)
                         )
                     )
                 }
                 
             case let .locationQueryResults(result):
                 state.requestInFlight = false
-                state.searchResult = result
+                state.locations = result
                 return .none
                 
-            case let .view(.setLocationButtonTapped(searchResult)):
-                let location = CLLocationCoordinate2D(
-                    latitude: searchResult.lat,
-                    longitude: searchResult.lon
-                )
-                state.location.location = location
-                state.location.city = searchResult.name
+            case let .view(.setLocationButtonTapped(location)):
+//                let location = CLLocationCoordinate2D(
+//                    latitude: locations.coordinates.latitude,
+//                    longitude: locations.coordinates.longitude
+//                )
+//                state.location.coordinates = location
+//                state.location.address.city = locations.address.city
+                state.location = location
                 return .run { send in
                     await send(.delegate(.setLocation))
                 }
