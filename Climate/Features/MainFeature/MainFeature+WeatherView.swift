@@ -120,7 +120,18 @@ struct ForecastView: View {
                                         .foregroundStyle(Color.accentColor)
                                 }
                                 Spacer()
+                                
+                                Text(forecast.date())
+                                    .font(.system(size: 10))
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(Color.white)
+                                
+                                Text(forecast.time())
+                                    .font(.system(size: 10))
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color.white)
                             }
+                            .padding(.vertical, 5)
                         }
                         .frame(width: geo.size.width/5)
                     }

@@ -35,6 +35,14 @@ public struct ForecastWeather: Codable, Equatable, Sendable {
         case dt, main, weather, clouds, wind, visibility, pop, rain, sys
         case dtTxt = "dt_txt"
     }
+    
+    func time() -> String {
+        self.dtTxt?.split(separator: " ").last?.dropLast(3).description ?? ""
+    }
+    
+    func date() -> String {
+        self.dtTxt?.split(separator: " ").first?.description ?? ""
+    }
 }
 
 public struct Clouds: Codable, Equatable, Sendable {
