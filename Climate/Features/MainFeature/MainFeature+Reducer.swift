@@ -92,20 +92,16 @@ struct Main {
                 
             case let .location(.getCurrentLocation(.success(location))):
                 return .run {  send in
-                    await send(
-                        .weather(
-                            .getWeatherForCurrentLocation(
-                                try await weatherClient.currentWeatherAt(
-                                    CurrentWeatherRequest(
-                                        location: GeoLocation(
-                                            location: location
-                                        ),
-                                        temperatureUnits: .metric
-                                    )
-                                )
-                            )
+                    
+                    let result = try await weatherClient.currentWeatherAt(
+                        CurrentWeatherRequest(
+                            location: GeoLocation(
+                                location: location
+                            ),
+                            temperatureUnits: .metric
                         )
                     )
+                    await send(.weather(.getWeatherForCurrentLocation(result)))
                 }
                 
             case let .location(.getCurrentLocation(.failure(error))):
@@ -153,15 +149,13 @@ struct Main {
                 
             case let .view(.unitButtonPressed(unit)):
                 state.units = unit
-                print(state.units)
                 return .run { [location = state.location, units = state.units]  send in
-                    await send(
-                        .weather(
-                            .getWeatherForCurrentLocation(
-                                try await weatherClient.currentWeatherAt(
-                                    CurrentWeatherRequest(location: location, temperatureUnits: units)
-                                )))
+                    
+                    let result = try await weatherClient.currentWeatherAt(
+                        CurrentWeatherRequest(location: location, temperatureUnits: units)
                     )
+                    
+                    await send(.weather(.getWeatherForCurrentLocation(result)))
                 }
                 
             case .alert, .binding:
