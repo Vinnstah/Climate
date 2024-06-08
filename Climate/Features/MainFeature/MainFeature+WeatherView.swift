@@ -4,13 +4,23 @@ import Foundation
 struct CurrentWeatherView: View {
     let location: GeoLocation
     let weather: WeatherAtLocation
-    let units: TemperatureUnits
+    @State var units: TemperatureUnits
     let geo: GeometryProxy
+    let unitChanged: (TemperatureUnits) -> ()
     
     var body: some View {
         VStack(alignment: .center) {
             HStack {
+                Picker("", selection: $units) {
+                    ForEach(TemperatureUnits.allCases, id: \.self) { unit in
+                        Text(unit.description)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .frame(width: geo.size.width/4)
+                
                 Spacer()
+                
                 location.address.city.isEmpty ? Text("Current Location") : Text(location.address.city + ", \(location.address.countryCode)")
                     .fontWeight(.bold)
             }
@@ -38,6 +48,9 @@ struct CurrentWeatherView: View {
             }
         }
         .padding(15)
+        .onChange(of: units) { oldValue, newValue in
+            unitChanged(newValue)
+        }
     }
 }
 
@@ -100,25 +113,11 @@ struct ForecastView: View {
                                 .clipShape(.capsule)
                                 .foregroundStyle(Color.primaryColor)
                             VStack {
-                                ZStack {
-                                    Circle()
-                                        .frame(width: geo.size.width/5)
-                                        .foregroundStyle(Color.primaryColor)
-                                    Image(forecast.weather?.first!.icon ?? "01d")
-                                        .resizable()
-                                        .aspectRatio(1, contentMode: .fit)
-                                        .frame(width: geo.size.width/5)
-                                }
-                                HStack {
-                                    Text(forecast.main?.temp?.roundedNumberFormatted() ?? "")
-                                        .font(.system(size: 20))
-                                        .fontWeight(.heavy)
-                                        .foregroundStyle(Color.accentColor)
-                                    Text("\(unit.description)")
-                                        .font(.system(size: 20))
-                                        .fontWeight(.heavy)
-                                        .foregroundStyle(Color.accentColor)
-                                }
+                                TemperatureImageView(
+                                    forecast: forecast,
+                                    geo: geo,
+                                    unit: unit
+                                )
                                 Spacer()
                                 
                                 Text(forecast.date())
@@ -142,5 +141,35 @@ struct ForecastView: View {
         }
         .frame(height: geo.size.height/3)
         .padding(15)
+    }
+}
+
+struct TemperatureImageView: View {
+    let forecast: ForecastWeather
+    let geo: GeometryProxy
+    let unit: TemperatureUnits
+    
+    var body: some View {
+        VStack {
+            ZStack {
+                Circle()
+                    .frame(width: geo.size.width/5)
+                    .foregroundStyle(Color.primaryColor)
+                Image(forecast.weather?.first!.icon ?? "01d")
+                    .resizable()
+                    .aspectRatio(1, contentMode: .fit)
+                    .frame(width: geo.size.width/5)
+            }
+            HStack {
+                Text(forecast.main?.temp?.roundedNumberFormatted() ?? "")
+                    .font(.system(size: 20))
+                    .fontWeight(.heavy)
+                    .foregroundStyle(Color.accentColor)
+                Text("\(unit.description)")
+                    .font(.system(size: 20))
+                    .fontWeight(.heavy)
+                    .foregroundStyle(Color.accentColor)
+            }
+        }
     }
 }

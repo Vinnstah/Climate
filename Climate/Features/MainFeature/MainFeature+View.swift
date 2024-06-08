@@ -18,7 +18,9 @@ extension Main {
                         weather: store.state.weather,
                         units: store.units,
                         geo: geo
-                    )
+                    ) { unit in
+                        store.send(.view(.unitButtonPressed(unit)))
+                    }
                     
                     ForecastView(
                         forecasts: store.state.forecast,

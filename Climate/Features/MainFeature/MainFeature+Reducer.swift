@@ -27,6 +27,7 @@ struct Main {
         
         public enum View: Equatable {
             case onAppear
+            case unitButtonPressed(TemperatureUnits)
         }
         
         public enum Location: Equatable, Sendable {
@@ -95,8 +96,15 @@ struct Main {
                         .weather(
                             .getWeatherForCurrentLocation(
                                 try await weatherClient.currentWeatherAt(
-                                    CurrentWeatherRequest(location: GeoLocation(location: location), temperatureUnits: .metric)
-                                )))
+                                    CurrentWeatherRequest(
+                                        location: GeoLocation(
+                                            location: location
+                                        ),
+                                        temperatureUnits: .metric
+                                    )
+                                )
+                            )
+                        )
                     )
                 }
                 
@@ -142,6 +150,19 @@ struct Main {
             case let .weather(.getForecastForCurrentLocation(forecast)):
                 state.forecast = forecast
                 return .none
+                
+            case let .view(.unitButtonPressed(unit)):
+                state.units = unit
+                print(state.units)
+                return .run { [location = state.location, units = state.units]  send in
+                    await send(
+                        .weather(
+                            .getWeatherForCurrentLocation(
+                                try await weatherClient.currentWeatherAt(
+                                    CurrentWeatherRequest(location: location, temperatureUnits: units)
+                                )))
+                    )
+                }
                 
             case .alert, .binding:
                 return .none
