@@ -36,4 +36,15 @@ final class AppCoordinatorTests: XCTestCase {
             state.destination = .main(.init(weather: state.weather, location: state.location))
         }
     }
+    
+    func test__GIVEN__search__WHEN__setLocation_tapped__THEN__home_screen_is_presented_with_location() async {
+        testStore.exhaustivity = .off
+        await testStore.send(.view(.searchTapped)) { state in
+            state.destination = .search(.init(location: state.$location))
+        }
+        
+        await testStore.send(.destination(.presented(.search(.delegate(.setLocation))))) { state in
+            state.destination = .main(.init(weather: state.weather, location: state.location))
+        }
+    }
 }

@@ -6,7 +6,7 @@ import CoreLocation
 struct AppCoordinator {
     
     @ObservableState
-    struct State: Equatable {
+    struct State: Equatable, Sendable {
         @Presents var destination: Destination.State?
         @Shared var location: GeoLocation
         @Shared var weather: WeatherAtLocation
