@@ -8,7 +8,7 @@ struct Main {
     @Dependency(WeatherClient.self) var weatherClient
     
     @ObservableState
-    struct State: Equatable {
+    struct State: Equatable, Sendable {
         var weather: WeatherAtLocation
         var location: GeoLocation
         var units: TemperatureUnits = .metric
